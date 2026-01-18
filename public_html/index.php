@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>EduEventManager</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <main>
