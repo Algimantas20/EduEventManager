@@ -23,6 +23,21 @@ class Database
         }
         return $conn;
     }
+
+    public function disconnect($conn)
+    {
+        $conn->close();
+    }
+
+    public function query($conn, $sql)
+    {
+        $result = $conn->query($sql);
+        if ($result === FALSE) {
+            echo "Error: " . $conn->error;
+            return null;
+        }
+        return $result;
+    }
 }
 
 ?>
