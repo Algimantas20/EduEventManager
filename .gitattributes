@@ -1,0 +1,7 @@
+*.php linguist-language=PHP
+
+*.json linguist-language=JSON
+*.yml linguist-language=YAML
+*.yaml linguist-language=YAML
+
+* text=auto

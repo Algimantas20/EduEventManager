@@ -1,0 +1,24 @@
+# Composer dependencies
+/vendor/
+/composer.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Logs and temporary files
+*.log
+/tmp/
+.cache/
+.env
+.env.local
+.env.*.local
+
+# Node (if you use npm/yarn)
+node_modules/
+dist/
