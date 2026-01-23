@@ -2,17 +2,17 @@
 
 class Database
 {
-    private $server_name;
-    private $username;
-    private $password;
-    private $db_name;
+    private $server_name = "localhost";
+    private $username = "PII50461LA";
+    private $password = "PII50461LA";
+    private $db_name = "PII50461LA";
 
-    public function __construct($server_name, $username, $password, $db_name)
+    public function __construct($server_name = null, $username = null, $password = null, $db_name = null)
     {
-        $this->server_name = $server_name;
-        $this->username = $username;
-        $this->password = $password;
-        $this->db_name = $db_name;
+        $this->server_name = $server_name ?? $this->server_name;
+        $this->username    = $username    ?? $this->username;
+        $this->password    = $password    ?? $this->password;
+        $this->db_name     = $db_name     ?? $this->db_name;
     }
 
     public function connect()
@@ -23,7 +23,7 @@ class Database
         }
         return $conn;
     }
-
+    
     public function disconnect($conn)
     {
         $conn->close();
