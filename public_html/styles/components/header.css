@@ -1,0 +1,37 @@
+@import url('../colors.css');
+
+header {
+    height: 3.75em;
+    width: 100%;
+    font-size: 0.9em;
+    background-color: var(--accent-color);
+    color: var(--light-color);
+    display: flex;
+    position: sticky; 
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+}
+
+header a {
+    color: var(--light-color);
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+header h1
+{
+    margin: 0 1rem;
+}
+
+header a:hover {
+    color: var(--primary-color);
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--light-color);
+}
