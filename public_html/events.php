@@ -9,10 +9,8 @@
     <header>
         <h1>EduEventManager</h1>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#events">Events</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="index.php">Home</a>
+            <a href="#">Events</a>
         </nav>
     </header>
 
