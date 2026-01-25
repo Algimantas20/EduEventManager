@@ -1,0 +1,141 @@
+@import url('../colors.css');
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.table-container {
+    width: 95%;
+    overflow-x: auto;
+    margin-top: 20px;
+    padding-left: calc((100% - 95%) / 2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--light-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(14, 30, 42, 0.15);
+}
+
+thead {
+    background-color: var(--dark-color);
+}
+
+thead th {
+    color: var(--light-color);
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+tbody tr {
+    border-bottom: 1px solid rgba(14, 30, 42, 0.08);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+tbody tr:hover {
+    background-color: var(--accent-color);
+}
+
+tbody tr:hover td {
+    color: #ffffff;
+}
+
+td {
+    padding: 12px 15px;
+    font-size: 14px;
+    color: var(--dark-color);
+    text-align: center;
+}
+
+
+td.status {
+    font-weight: bold;
+}
+
+td.status.A {
+    color: var(--primary-color);
+}
+
+td.status.I {
+    color: #C0392B;
+}
+
+
+td a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+tbody tr:hover td a {
+    color: #ffffff;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+.pagination {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    margin: 0 4px;
+    padding: 6px 12px;
+    background: var(--light-color);
+    color: var(--dark-color);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.pagination a.active {
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background: var(--accent-color);
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    thead {
+        display: none;
+    }
+
+    tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        background-color: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(14, 30, 42, 0.1);
+    }
+
+    tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(14, 30, 42, 0.08);
+        text-align: left;
+    }
+
+    tbody td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+}
