@@ -1,8 +1,7 @@
-:root 
-{
---primary-color: #1CB495;
---light-color: #EEEEFF;
---secondary-color: #7F7CAF;
---accent-color: #28587B;
---dark-color: #0A2E36;
+:root {
+  --primary-color:   #0B3C8A; 
+  --secondary-color: #6B72A8;
+  --accent-color:    #2F80C1;
+  --light-color:     #F4F6FF;
+  --dark-color:      #0E1E2A;
 }
