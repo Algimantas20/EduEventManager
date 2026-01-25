@@ -4,7 +4,7 @@ class Database
 {
     private $server_name = "localhost";
     private $username = "PII50461LA";
-    private $password = "PII50461LA";
+    private $password = "jkm_PII50461LA";
     private $db_name = "PII50461LA";
 
     public function __construct($server_name = null, $username = null, $password = null, $db_name = null)
