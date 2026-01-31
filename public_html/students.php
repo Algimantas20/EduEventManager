@@ -3,6 +3,7 @@ define('RECORDS_PER_PAGE', 15);
 
 require_once '../src/database.php';
 require_once '../src/table.php';
+require_once '../src/header.php';
 
 $fields = [
     'ID'         => ['key' => 'id'],
@@ -40,29 +41,23 @@ $db->disconnect($conn);
 </head>
 <body>
 
-<header>
-    <h1>EduEventManager</h1>
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="#" aria-current="page">Events</a>
-    </nav>
-</header>
+<?= renderPageHeader('Students') ?>
 
 <main class="events-page">
 
 <?php if ($result && $result->num_rows > 0): ?>
     <div class="table-container">
         <table class="event-table">
-            <?= renderTable($fields, $result); ?>
+            <?php renderTable($fields, $result); ?>
         </table>
     </div>
 
     <div class="pagination">
-        <?= renderPagination($page, $totalPages); ?>
+        <?php renderPagination($page, $totalPages); ?>
     </div>
 
 <?php else: ?>
-    <p class="empty-state">No events found.</p>
+    <p class="empty-state">No students found.</p>
 <?php endif; ?>
 
 </main>

@@ -1,70 +1,66 @@
-    <?php
-    define('RECORDS_PER_PAGE', 15);
+<?php
+define('RECORDS_PER_PAGE', 15);
 
-    require_once '../src/database.php';
-    require_once '../src/table.php';
+require_once '../src/database.php';
+require_once '../src/table.php';
+require_once '../src/header.php';
 
-    $fields = [
-        'ID'         => ['key' => 'id'],
-        'Event ID'   => ['key' => 'event_id'],
-        'Name'       => ['key' => 'name'],
-        'Event Type' => ['key' => 'event_type'],
-        'Location'   => ['key' => 'location'],
-        'Event Date' => ['key' => 'event_date'],
-        'Created At' => ['key' => 'created_at'],
-        'Status'     => [
-            'key'   => 'status',
-            'class' => 'status %s'
-        ],
-    ];
+$fields = [
+    'ID'         => ['key' => 'id'],
+    'Event ID'   => ['key' => 'event_id'],
+    'Name'       => ['key' => 'name'],
+    'Event Type' => ['key' => 'event_type'],
+    'Location'   => ['key' => 'location'],
+    'Event Date' => ['key' => 'event_date'],
+    'Created At' => ['key' => 'created_at'],
+    'Status'     => [
+        'key'   => 'status',
+        'class' => 'status %s'
+    ],
+];
 
-    $db   = new Database();
-    $conn = $db->connect();
+$db   = new Database();
+$conn = $db->connect();
 
-    $page = getCurrentPage();
-    $totalPages = getTotalPages($conn, $db, "Events");
-    $result = getEventTable($conn, $db, "Events", $page);
+$page = getCurrentPage();
+$totalPages = getTotalPages($conn, $db, "Event");
+$result = getEventTable($conn, $db, "Event", $page);
 
-    $db->disconnect($conn);
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>EduEventManager - Events</title>
+$db->disconnect($conn);
+?>
 
-        <link rel="stylesheet" href="styles/components/header.css">
-        <link rel="stylesheet" href="styles/components/table.css">
-        <link rel="stylesheet" href="styles/events.css">
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduEventManager - Events</title>
 
-    <header>
-        <h1>EduEventManager</h1>
-        <nav>
-            <a href="index.php">Home</a>
-            <a href="#" aria-current="page">Events</a>
-        </nav>
-    </header>
+    <link rel="stylesheet" href="styles/components/header.css">
+    <link rel="stylesheet" href="styles/components/table.css">
+    <link rel="stylesheet" href="styles/events.css">
+</head>
+<body>
 
-    <main class="events-page">
+<?php renderPageHeader('Students'); ?>
 
-    <?php if ($result && $result->num_rows > 0): ?>
-        <div class="table-container">
-            <table class="event-table">
-                <?= renderTable($fields, $result); ?>
-            </table>
-        </div>
+<main class="events-page">
 
-        <div class="pagination">
-            <?= renderPagination($page, $totalPages); ?>
-        </div>
+<?php if ($result && $result->num_rows > 0): ?>
+    <div class="table-container">
+        <table class="event-table">
+            <?= renderTable($fields, $result); ?>
+        </table>
+    </div>
 
-    <?php else: ?>
-        <p class="empty-state">No events found.</p>
-    <?php endif; ?>
+    <div class="pagination">
+        <?= renderPagination($page, $totalPages); ?>
+    </div>
 
-    </main>
+<?php else: ?>
+    <p class="empty-state">No events found.</p>
+<?php endif; ?>
 
-    </body>
-    </html>
+</main>
+
+</body>
+</html>

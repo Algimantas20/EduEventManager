@@ -1,3 +1,5 @@
+<?php include '../src/header.php'; ?>
+
 <html>
 <head>
     <title>EduEventManager</title>
@@ -5,13 +7,7 @@
     <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
-    <header>
-        <h1>EduEventManager</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="events.php">Events</a>
-        </nav>
-    </header>
+    <?= renderPageHeader('Home') ?>
 
     <main>
     <main>
