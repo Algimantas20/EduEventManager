@@ -32,3 +32,26 @@ header a.active {
     transform: scale(1.1);
     font-weight: bold;
 }
+
+@media (max-width: 768px)
+{
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 0.5rem 0;
+    }
+
+    header h1 {
+        margin: 0.5rem 0;
+    }
+
+    header nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    header a {
+        margin: 0.5rem;
+    }
+}

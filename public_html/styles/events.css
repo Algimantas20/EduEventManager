@@ -26,62 +26,6 @@ main {
     font-family: Arial, sans-serif;
 }
 
-td[data-label="ID"],
-th[data-label="ID"] 
-{
-    width: 60px;
-    text-align: center;
-}
-
-td[data-label="Event ID"],
-th[data-label="Event ID"] 
-{
-    width: 80px;
-    text-align: center;
-}
-
-td[data-label="Name"],
-th[data-label="Name"] 
-{
-    width: 200px;
-    text-align: left;
-}
-
-td[data-label="Event Type"],
-th[data-label="Event Type"] 
-{
-    width: 120px;
-    text-align: left;
-}
-
-td[data-label="Location"],
-th[data-label="Location"] 
-{
-    width: 150px;
-    text-align: left;
-}
-
-td[data-label="Event Date"],
-th[data-label="Event Date"] 
-{
-    width: 120px;
-    text-align: center;
-}
-
-td[data-label="Created At"],
-th[data-label="Created At"] 
-{
-    width: 140px;
-    text-align: center;
-}
-
-td[data-label="Status"],
-th[data-label="Status"] 
-{
-    width: 80px;
-    text-align: center;
-}
-
 .empty-state 
 {
     text-align: center;
@@ -104,4 +48,29 @@ th[data-label="Status"]
     {
         padding: 10px 0;
     }
+}
+
+@media (min-width: 769px) {
+    td, th
+    {
+        text-align: center;
+    }
+
+    td[data-label="Name"], th[data-label="Name"],
+    td[data-label="Event Type"], th[data-label="Event Type"],
+    td[data-label="Location"], th[data-label="Location"] 
+    {
+        text-align: left;
+    }
+
+
+    th[data-label="ID"], td[data-label="ID"] { width: 60px; }
+    th[data-label="Event ID"], td[data-label="Event ID"] { width: 60px; }
+    th[data-label="Name"], td[data-label="Name"] { width: 200px; }
+    th[data-label="Event Type"], td[data-label="Event Type"] { width: 120px; }
+    th[data-label="Location"], td[data-label="Location"] { width: 150px;}
+    th[data-label="Event Date"], td[data-label="Event Date"] { width: 120px; }
+    th[data-label="Created At"], td[data-label="Created At"] { width: 140px;}
+    th[data-label="Status"], td[data-label="Status"] { width: 80px;}
+
 }

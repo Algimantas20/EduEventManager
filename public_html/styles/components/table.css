@@ -33,7 +33,7 @@ thead th
 {
     color: var(--light-color);
     padding: 12px 15px;
-    text-align: left;
+    text-align: center;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
@@ -54,7 +54,13 @@ tbody tr:hover
     background-color: var(--accent-color);
 }
 
-tbody tr:hover td 
+tbody tr:hover td ,
+tbody tr:hover td::before
+{
+    color: #ffffff;
+}
+
+tbody tr:hover td a 
 {
     color: #ffffff;
 }
@@ -74,7 +80,6 @@ td
     color: var(--dark-color);
     text-align: left;
 }
-
 
 td.status 
 {
@@ -103,10 +108,8 @@ td a
     font-weight: 500;
 }
 
-tbody tr:hover td a 
-{
-    color: #ffffff;
-}
+
+
 
 td a:hover 
 {
@@ -145,7 +148,12 @@ td a:hover
 }
 
 @media (max-width: 768px) 
-{
+{   
+
+    table {
+        table-layout: auto;
+    }
+
     thead 
     {
         display: none;
@@ -163,10 +171,13 @@ td a:hover
     tbody td 
     {
         display: flex;
+        width: 100%;
+        max-width: none;
         justify-content: space-between;
         padding: 10px 12px;
         border-bottom: 1px solid rgba(14, 30, 42, 0.08);
         text-align: left;
+        white-space: normal;
     }
 
     tbody td::before 
@@ -174,5 +185,10 @@ td a:hover
         content: attr(data-label);
         font-weight: bold;
         color: var(--secondary-color);
+        flex: 1;
+    }
+
+    tbody td span {
+        flex: 2;
     }
 }

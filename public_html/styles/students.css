@@ -26,68 +26,7 @@ main {
     font-family: Arial, sans-serif;
 }
 
-td[data-label="ID"],
-th[data-label="ID"] 
-{
-    width: 60px;
-    text-align: center;
-}
 
-td[data-label="Student ID"],
-th[data-label="Student ID"] 
-{
-    width: 80px;
-    text-align: center;
-}
-
-td[data-label="First Name"],
-th[data-label="First Name"] 
-{
-    width: 120px;
-    text-align: left;
-}
-
-td[data-label="Last Name"],
-th[data-label="Last Name"] 
-{
-    width: 120px;
-    text-align: left;
-}
-
-td[data-label="Date of Birth"],
-th[data-label="Date of Birth"] 
-{
-    width: 120px;
-    text-align: left;
-}
-
-td[data-label="Address"],
-th[data-label="Address"] 
-{
-    width: 120px;
-    text-align: center;
-}
-
-td[data-label="Class"],
-th[data-label="Class"] 
-{
-    width: 60px;
-    text-align: center;
-}
-
-td[data-label="Created At"],
-th[data-label="Created At"] 
-{
-    width: 120px;
-    text-align: center;
-}
-
-td[data-label="Status"],
-th[data-label="Status"] 
-{
-    width: 80px;
-    text-align: center;
-}
 
 .empty-state 
 {
@@ -110,5 +49,40 @@ th[data-label="Status"]
     main 
     {
         padding: 10px 0;
+    }
+}
+
+@media (min-width: 769px) {
+    td[data-label="ID"], th[data-label="ID"],
+    td[data-label="Student ID"], th[data-label="Student ID"],
+    td[data-label="Address"], th[data-label="Address"],
+    td[data-label="Class"], th[data-label="Class"],
+    td[data-label="Created At"], th[data-label="Created At"],
+    td[data-label="Status"], th[data-label="Status"] {
+        text-align: center;
+    }
+
+    td[data-label="First Name"], th[data-label="First Name"],
+    td[data-label="Last Name"], th[data-label="Last Name"],
+    td[data-label="Date of Birth"], th[data-label="Date of Birth"] {
+        text-align: left;
+    }
+
+    td[data-label="ID"], th[data-label="ID"],
+    td[data-label="Class"], th[data-label="Class"] {
+        width: 60px;
+    }
+
+    td[data-label="Student ID"], th[data-label="Student ID"],
+    td[data-label="Status"], th[data-label="Status"] {
+        width: 80px;
+    }
+
+    td[data-label="First Name"], th[data-label="First Name"],
+    td[data-label="Last Name"], th[data-label="Last Name"],
+    td[data-label="Date of Birth"], th[data-label="Date of Birth"],
+    td[data-label="Address"], th[data-label="Address"],
+    td[data-label="Created At"], th[data-label="Created At"] {
+        width: 120px;
     }
 }
