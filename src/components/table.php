@@ -52,6 +52,8 @@ function renderTableBody(mysqli_result $result, array $fields): void
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';
         renderRow($row, $fields);
+        echo '<a>Edit</a>';
+        echo '<a>Delete</a>';
         echo '</tr>';
     }
 }

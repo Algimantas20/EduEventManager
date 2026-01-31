@@ -1,9 +1,9 @@
 <?php
-define('RECORDS_PER_PAGE', 15);
+define('RECORDS_PER_PAGE', 10);
 
 require_once '../src/database.php';
-require_once '../src/table.php';
-include '../src/header.php';
+require_once '../src/components/table.php';
+require_once '../src/components/header.php';
 
 $fields = [
     'ID'         => ['key' => 'id'],
@@ -38,12 +38,12 @@ $db->disconnect($conn);
     <link rel="stylesheet" href="styles/components/header.css">
     <link rel="stylesheet" href="styles/components/table.css">
     <link rel="stylesheet" href="styles/events.css">
-    
+
     <title>EduEventManager - Events</title>
 </head>
 <body>
 
-<?php renderPageHeader('Students'); ?>
+<?php renderPageHeader('Events'); ?>
 
 <main class="events-page">
 

@@ -60,11 +60,6 @@ tbody tr:hover td::before
     color: #ffffff;
 }
 
-tbody tr:hover td a 
-{
-    color: #ffffff;
-}
-
 th,
 td 
 {
@@ -108,9 +103,6 @@ td a
     font-weight: 500;
 }
 
-
-
-
 td a:hover 
 {
     text-decoration: underline;
@@ -146,6 +138,62 @@ td a:hover
     background: var(--accent-color);
     color: #fff;
 }
+
+
+td.actions {
+    white-space: nowrap;
+}
+
+.actions a,
+.actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.actions a {
+    color: #1f3a8a;
+    background-color: #eef2ff;
+    border-color: #c7d2fe;
+}
+
+.actions a:hover {
+    background-color: #e0e7ff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.actions .danger,
+.actions button.danger {
+    color: #991b1b;
+    background-color: #fee2e2;
+    border-color: #fecaca;
+}
+
+.actions .danger:hover,
+.actions button.danger:hover {
+    background-color: #fecaca;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.actions button {
+    background: none;
+    border: none;
+}
+
+.actions a:focus,
+.actions button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+}
+
 
 @media (max-width: 768px) 
 {   

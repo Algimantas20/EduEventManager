@@ -1,4 +1,4 @@
-<?php include '../src/header.php'; ?>
+<?php include '../src/components/header.php'; ?>
 
 <html>
 <head>
