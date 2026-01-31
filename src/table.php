@@ -5,9 +5,9 @@ function h(mixed $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
-function getTotalPages(mysqli $conn, Database $db): int
+function getTotalPages(mysqli $conn, Database $db, string $table_name): int
 {
-    $sql    = "SELECT COUNT(*) AS total FROM Event";
+    $sql    = "SELECT COUNT(*) AS total FROM " . $table_name;
     $result = $db->query($conn, $sql);
     $total  = $result->fetch_assoc()['total'] ?? 0;
 
@@ -21,11 +21,11 @@ function getCurrentPage()
     return isset($page) && is_numeric($page) ? max(1, (int) $page): 1;
 }
 
-function getEventTable(mysqli $conn, Database $db, int $page): mysqli_result
+function getEventTable(mysqli $conn, Database $db, string $table_name, int $page): mysqli_result
 {
     $offset = ($page - 1) * RECORDS_PER_PAGE;
 
-    $sql = " SELECT * FROM Event ORDER BY created_at DESC LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
+    $sql = " SELECT * FROM " . $table_name . " ORDER BY created_at DESC LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
 
     return $db->query($conn, $sql);
 }
