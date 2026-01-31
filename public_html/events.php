@@ -3,7 +3,7 @@ define('RECORDS_PER_PAGE', 15);
 
 require_once '../src/database.php';
 require_once '../src/table.php';
-require_once '../src/header.php';
+include '../src/header.php';
 
 $fields = [
     'ID'         => ['key' => 'id'],

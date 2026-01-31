@@ -33,7 +33,7 @@ $db->disconnect($conn);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>EduEventManager - Events</title>
+    <title>EduEventManager - Students</title>
 
     <link rel="stylesheet" href="styles/components/header.css">
     <link rel="stylesheet" href="styles/components/table.css">
