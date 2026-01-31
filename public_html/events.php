@@ -94,14 +94,14 @@ $result = getEventTable($conn, $db, $page);
         <table class="event-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Event ID</th>
-                    <th>Name</th>
-                    <th>Event Type</th>
-                    <th>Location</th>
-                    <th>Event Date</th>
-                    <th>Created At</th>
-                    <th>Status</th>
+                    <th data-label="ID">ID</th>
+                    <th data-label="Event ID">Event ID</th>
+                    <th data-label="Name">Name</th>
+                    <th data-label="Event Type">Event Type</th>
+                    <th data-label="Location">Location</th>
+                    <th data-label="Event Date">Event Date</th>
+                    <th data-label="Created At">Created At</th>
+                    <th data-label="Status">Status</th>
                 </tr>
             </thead>
             <tbody>

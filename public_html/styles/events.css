@@ -8,7 +8,8 @@ body {
     background-color: #f9f9fb;
 }
 
-html, body {
+html, body 
+{
     height: 100%;
 }
 
@@ -17,26 +18,72 @@ main {
     padding: 20px 0;
 }
 
-.events-page h1 {
+.events-page h1 
+{
     color: var(--dark-color);
     text-align: center;
     margin-bottom: 1rem;
     font-family: Arial, sans-serif;
 }
 
-.status.A {
-    color: var(--secondary-color);
+td[data-label="ID"],
+th[data-label="ID"] 
+{
+    width: 60px;
+    text-align: center;
 }
 
-.status.C {
-    color: #27ae60;
+td[data-label="Event ID"],
+th[data-label="Event ID"] 
+{
+    width: 80px;
+    text-align: center;
 }
 
-.status.D {
-    color: #C0392B;
+td[data-label="Name"],
+th[data-label="Name"] 
+{
+    width: 200px;
+    text-align: left;
 }
 
-.empty-state {
+td[data-label="Event Type"],
+th[data-label="Event Type"] 
+{
+    width: 120px;
+    text-align: left;
+}
+
+td[data-label="Location"],
+th[data-label="Location"] 
+{
+    width: 150px;
+    text-align: left;
+}
+
+td[data-label="Event Date"],
+th[data-label="Event Date"] 
+{
+    width: 120px;
+    text-align: center;
+}
+
+td[data-label="Created At"],
+th[data-label="Created At"] 
+{
+    width: 140px;
+    text-align: center;
+}
+
+td[data-label="Status"],
+th[data-label="Status"] 
+{
+    width: 80px;
+    text-align: center;
+}
+
+.empty-state 
+{
     text-align: center;
     margin-top: 50px;
     padding: 40px;
@@ -51,8 +98,10 @@ main {
     border: 1px dashed var(--secondary-color);
 }
 
-@media (max-width: 768px) {
-    main {
+@media (max-width: 768px) 
+{
+    main 
+    {
         padding: 10px 0;
     }
 }
