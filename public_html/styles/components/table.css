@@ -19,6 +19,7 @@ table {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(14, 30, 42, 0.15);
+ 	table-layout: fixed;
 }
 
 thead {
@@ -50,11 +51,18 @@ tbody tr:hover td {
     color: #ffffff;
 }
 
+th,
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 td {
     padding: 12px 15px;
     font-size: 14px;
     color: var(--dark-color);
-    text-align: center;
+    text-align: left;
 }
 
 
