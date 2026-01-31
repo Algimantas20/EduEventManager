@@ -17,8 +17,9 @@ header a {
     color: var(--light-color);
     text-decoration: none;
     margin: 0 1rem;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    font-weight: normal;
+    display: inline-block;
+    transition: transform 0.3s ease, font-weight 0.3s ease;
 }
 
 header h1
@@ -26,6 +27,8 @@ header h1
     margin: 0 1rem;
 }
 
-header a:hover {
-    color: var(--primary-color);
+header a:hover,
+header a.active {
+    transform: scale(1.1);
+    font-weight: bold;
 }
