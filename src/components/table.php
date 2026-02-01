@@ -49,12 +49,14 @@ function renderRow(array $row, array $fields): void
 
 function renderTableBody(mysqli_result $result, array $fields): void
 {
+    $table_name = $result->fetch_fields()[0]->table;
+
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';
         renderRow($row, $fields);
         echo '<td class="actions">';
         echo '<a>Edit</a>';
-        echo '<a class="danger">Delete</a>';
+        echo '<a class="danger" onclick="deleteUser(' . $row['id'] . ', \'' . $table_name . '\')">Delete</a>';
         echo '</td>';
         echo '</tr>';
     }
