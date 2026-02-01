@@ -142,6 +142,8 @@ td a:hover
 
 td.actions {
     white-space: nowrap;
+    gap: 5px;
+    display: flex;
 }
 
 .actions a,
@@ -150,7 +152,6 @@ td.actions {
     align-items: center;
     justify-content: center;
     padding: 6px 12px;
-	margin: 3px; 
     font-size: 13px;
     font-weight: 500;
     text-decoration: none;

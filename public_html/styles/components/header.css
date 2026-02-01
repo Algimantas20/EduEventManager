@@ -33,7 +33,7 @@ header a.active {
     font-weight: bold;
 }
 
-@media (max-width: 768px)
+@media (max-width: 1300px)
 {
     header {
         flex-direction: column;

@@ -44,7 +44,7 @@ main {
     border: 1px dashed var(--secondary-color);
 }
 
-@media (max-width: 768px) 
+@media (max-width: 1300px) 
 {
     main 
     {
@@ -52,7 +52,7 @@ main {
     }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1301px) {
     td, th {
         text-align: center;
         width: 100px;
