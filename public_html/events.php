@@ -6,7 +6,6 @@ require_once '../src/components/table.php';
 require_once '../src/components/header.php';
 
 $fields = [
-    'ID'         => ['key' => 'id'],
     'Event ID'   => ['key' => 'event_id'],
     'Name'       => ['key' => 'name'],
     'Event Type' => ['key' => 'event_type'],

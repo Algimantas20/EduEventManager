@@ -6,7 +6,6 @@ require_once '../src/components/table.php';
 require_once '../src/components/header.php';
 
 $fields = [
-    'ID'         => ['key' => 'id'],
     'Student ID'   => ['key' => 'student_id'],
     'First Name'       => ['key' => 'first_name'],
     'Last Name' => ['key' => 'last_name'],
