@@ -52,8 +52,10 @@ function renderTableBody(mysqli_result $result, array $fields): void
     while ($row = $result->fetch_assoc()) {
         echo '<tr>';
         renderRow($row, $fields);
+        echo '<td class="actions">';
         echo '<a>Edit</a>';
-        echo '<a>Delete</a>';
+        echo '<a class="danger">Delete</a>';
+        echo '</td>';
         echo '</tr>';
     }
 }
@@ -66,6 +68,7 @@ function renderTableHeader(array $fields): void
             . h($label)
             . '</th>';
     }
+    echo '<th data-label="Actions"></th>';
     echo '</tr>';
 }
 
