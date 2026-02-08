@@ -55,8 +55,8 @@ function renderTableBody(mysqli_result $result, array $fields): void
         echo '<tr>';
         renderRow($row, $fields);
         echo '<td class="actions">';
-        echo '<a>Edit</a>';
-        echo '<a class="danger" onclick="deleteUser(' . $row['id'] . ', \'' . $table_name . '\')">Delete</a>';
+        echo '<a onclick="edit(' . $row['id'] . ', \'' . $table_name . '\')">Edit</a>';
+        echo '<a class="danger" onclick="deleteRecord(' . $row['id'] . ', \'' . $table_name . '\')">Delete</a>';
         echo '</td>';
         echo '</tr>';
     }
