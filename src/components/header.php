@@ -3,10 +3,10 @@ class Header
 {
     public static function render(string $currentPageTitle): void
     {
-        $basePath = '/~PII50461LA/view';
+        $basePath = '/~PII50461LA';
 
         $pages = [
-            'Home'       => $basePath . '../',
+            'Home'       => $basePath . '/../',
             'Events'     => $basePath . '/events/view.php',
             'Students'   => $basePath . '/students/view.php'
         ];
