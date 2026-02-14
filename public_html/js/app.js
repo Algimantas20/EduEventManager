@@ -11,7 +11,8 @@ function deleteRecord(id, table)
     .then(() => location.reload());
 }
 
-function updateRecord(id, table) {
+function updateRecord(id, table)
+{
     if (!confirm("Update record?")) return;
 
     const form = document.querySelector("form");
@@ -36,25 +37,7 @@ function updateRecord(id, table) {
 
 
 
-function edit(id, table) {
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "edit.php";
-
-    let inputId = document.createElement("input");
-    inputId.type = "hidden";
-    inputId.name = "id";
-    inputId.value = id;
-
-    let inputTable = document.createElement("input");
-    inputTable.type = "hidden";
-    inputTable.name = "table";
-    inputTable.value = table;
-
-    form.appendChild(inputId);
-    form.appendChild(inputTable);
-
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+function edit(id, table) 
+{
+    window.location.href = `edit.php?type=${table}&id=${id}`;
 }

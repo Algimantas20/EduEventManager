@@ -4,12 +4,12 @@ require_once __DIR__ . '/../database.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
-function IsValidId(int $id) : bool
+function IsValidId(int $id): bool
 {
     return $id > 0;
 }
 
-function UpdateRecord(string $tableName, int $id, array $data) : void
+function UpdateRecord(string $tableName, int $id, array $data): void
 {
     if (!IsValidId($id))
     {
@@ -27,19 +27,16 @@ function UpdateRecord(string $tableName, int $id, array $data) : void
         throw new Exception("No data provided to update");
     }
 
-    $conn = (new Database())->connect();
-
     $columns = [];
-    $values = [];
-    $types = "";
+    $params  = [];
 
     foreach ($data as $key => $value)
     {
         $key = trim($key);
         if ($key === '') continue;
+
         $columns[] = "`$key` = ?";
-        $values[] = $value;
-        $types .= "s";
+        $params[]  = $value;
     }
 
     if (empty($columns))
@@ -47,25 +44,18 @@ function UpdateRecord(string $tableName, int $id, array $data) : void
         throw new Exception("No valid columns to update");
     }
 
-    $sql = "UPDATE `$tableName` SET " . implode(", ", $columns) . " WHERE id = ?";
-    $values[] = $id;
-    $types .= "i";
+    $sql = sprintf(
+        "UPDATE `%s` SET %s WHERE id = ?",
+        $tableName,
+        implode(", ", $columns)
+    );
 
-    $stmt = $conn->prepare($sql);
-    if (!$stmt)
-    {
-        throw new Exception("Prepare failed: " . $conn->error);
-    }
+    $params[] = $id;
 
-    $stmt->bind_param($types, ...$values);
-    $stmt->execute();
+    $db = new Database();
 
-    if ($stmt->error)
-    {
-        throw new Exception("Execute failed: " . $stmt->error);
-    }
+    $db->query($sql, $params);
 
-    $stmt->close();
-    $conn->close();
+    $db->disconnect();
 }
 ?>

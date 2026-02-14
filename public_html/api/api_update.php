@@ -7,7 +7,8 @@ $table = $_POST['table'] ?? '';
 $data = $_POST;
 unset($data['id'], $data['table']);
 
-try {
+try 
+{
     UpdateRecord($table, $id, $data);
     echo "Record updated successfully!";
 } catch (Exception $e) {
