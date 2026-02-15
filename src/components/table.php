@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../Config.php';
 require_once __DIR__ . '/../database.php';
 
@@ -59,13 +63,14 @@ class Table
 
     private function renderBody(array $fields): void
     {
+        $editFile_path = Config::$BASE_URL . 'view/edit/edit.php';
         $result = $this->getPageContent();
         while ($row = $result->fetch_assoc()) 
         {
             echo '<tr>';
             $this->renderRow($row, $fields);
             echo '<td class="actions">';
-            echo "<a href=\"edit.php?type={$this->table_name}&id={$row['id']}\">Edit</a>";
+            echo "<a href=\"{$editFile_path}?type={$this->table_name}&id={$row['id']}\">Edit</a>";
             echo "<a class=\"danger\" onclick=\"deleteRecord({$row['id']}, '{$this->table_name}')\">Delete</a>";
             echo '</td>';
             echo '</tr>';

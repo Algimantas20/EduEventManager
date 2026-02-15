@@ -6,9 +6,9 @@ class Header
         $basePath = '/~PII50461LA';
 
         $pages = [
-            'Home'       => $basePath . '/../',
-            'Events'     => $basePath . '/events/view.php',
-            'Students'   => $basePath . '/students/view.php'
+            'Home'       => $basePath . '/home',
+            'Events'     => $basePath . '/events',
+            'Students'   => $basePath . '/students'
         ];
 
         echo '<header>';

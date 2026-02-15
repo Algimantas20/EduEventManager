@@ -5,8 +5,6 @@ require_once '../../../src/Config.php';
 require_once PROJECT_ROOT . 'src/components/Header.php';
 require_once PROJECT_ROOT . 'src/components/Table.php';
 
-$table = new Table("Event");
-
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +25,10 @@ $table = new Table("Event");
 
 <main class="events-page">
 
-    <?= $table->render($event_fields, "event-table"); ?>
+<?php 
+    $table = new Table("Event");
+    $table->render($event_fields, "event-table"); 
+?>
 
 </main>
 

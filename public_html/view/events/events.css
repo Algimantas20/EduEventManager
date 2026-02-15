@@ -1,6 +1,7 @@
 @import url('../../styles/colors.css');
 
-body {
+body 
+{
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,7 +14,8 @@ html, body
     height: 100%;
 }
 
-main {
+main 
+{
     flex: 1;
     padding: 20px 0;
 }
@@ -50,7 +52,8 @@ main {
     }
 }
 
-@media (min-width: 1301px) {
+@media (min-width: 1301px) 
+{
     td, th
     {
         width: 100px;
@@ -71,7 +74,8 @@ main {
     th[data-label="Event Type"], td[data-label="Event Type"] { width: 120px; }
     th[data-label="Location"], td[data-label="Location"] { width: 150px;}
     th[data-label="Event Date"], td[data-label="Event Date"] { width: 120px; }
-    th[data-label="Created At"], td[data-label="Created At"] { width: 140px;}
-    th[data-label="Status"], td[data-label="Status"] { width: 80px;}
+    th[data-label="Created At"], td[data-label="Created At"] { width: 140px; }
+    th[data-label="Status"], td[data-label="Status"] { width: 80px; }
+    th.actions, td.actions { width: 120px; }
 
 }

@@ -1,6 +1,7 @@
 @import url('../../styles/colors.css');
 
-body {
+body 
+{
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,7 +14,8 @@ html, body
     height: 100%;
 }
 
-main {
+main 
+{
     flex: 1;
     padding: 20px 0;
 }
@@ -53,24 +55,28 @@ main {
 }
 
 @media (min-width: 1301px) {
-    td, th {
+    td, th 
+    {
         text-align: center;
         width: 100px;
     }
 
     td[data-label="First Name"], th[data-label="First Name"],
     td[data-label="Last Name"], th[data-label="Last Name"],
-    td[data-label="Date of Birth"], th[data-label="Date of Birth"] {
+    td[data-label="Date of Birth"], th[data-label="Date of Birth"] 
+    {
         text-align: left;
     }
 
     td[data-label="ID"], th[data-label="ID"],
-    td[data-label="Class"], th[data-label="Class"] {
+    td[data-label="Class"], th[data-label="Class"] 
+    {
         width: 60px;
     }
 
     td[data-label="Student ID"], th[data-label="Student ID"],
-    td[data-label="Status"], th[data-label="Status"] {
+    td[data-label="Status"], th[data-label="Status"] 
+    {
         width: 80px;
     }
 
@@ -79,7 +85,8 @@ main {
     td[data-label="Date of Birth"], th[data-label="Date of Birth"],
     td[data-label="Address"], th[data-label="Address"],
     td[data-label="Created At"], th[data-label="Created At"],
-    td[data-label="actions"], th[data-label="actions"] {
+    th.actions, td.actions 
+	{
         width: 120px;
     }
 }

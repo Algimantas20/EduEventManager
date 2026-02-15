@@ -1,4 +1,9 @@
 <?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+
 define('RECORDS_PER_PAGE', 10);
 
 require_once '../../../src/Config.php';
@@ -6,7 +11,6 @@ require_once PROJECT_ROOT . 'src/database.php';
 require_once PROJECT_ROOT . 'src/components/Table.php';
 require_once PROJECT_ROOT . 'src/components/Header.php';
 
-$table = new Table("Student");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +19,7 @@ $table = new Table("Student");
     <meta charset="UTF-8">
 
     <link rel="stylesheet" href="<?= Config::$BASE_URL ?>styles/components/header.css">
-    <link rel="stylesheet" href="<?= Config::$BASE_URL ?>components/table.css">
+    <link rel="stylesheet" href="<?= Config::$BASE_URL ?>styles/components/table.css">
     <link rel="stylesheet" href="<?= Config::$BASE_URL ?>view/students/students.css">
 
     <title>EduEventManager - Students</title>
@@ -26,7 +30,10 @@ $table = new Table("Student");
 
 <main class="events-page">
 
-<?= $table->render($student_fields, "student-table"); ?>
+<?php
+    $table = new Table("Student");
+    $table->render($student_fields, "student-table");
+?>
 
 </main>
 
