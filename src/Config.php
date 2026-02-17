@@ -44,5 +44,3 @@ $event_fields = [
         'class' => 'status %s'
     ],
 ];
-
-?>

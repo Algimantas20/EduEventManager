@@ -19,28 +19,25 @@ class Database
     public function connect()
     {
         $conn = new mysqli($this->server_name, $this->username, $this->password, $this->db_name);
-        if ($conn->connect_error) 
-        {
+        if ($conn->connect_error) {
             throw new Exception("Connection failed: " . $conn->connect_error);
         }
         $this->conn = $conn;
         return $conn;
     }
-    
+
     public function disconnect()
     {
         $this->conn->close();
     }
 
-    public function query(string $sql, array $params = []): ?mysqli_result
+    public function query(string $sql, array $params = [])
     {
         $conn = $this->connect();
 
-        if ($params)
-        {
+        if ($params) {
             $stmt = $conn->prepare($sql);
-            if (!$stmt) 
-            {
+            if (!$stmt) {
                 throw new Exception("Prepare failed: " . $conn->error);
             }
 
@@ -50,12 +47,9 @@ class Database
 
             $result = $stmt->get_result();
             $stmt->close();
-        } 
-        else 
-        {
+        } else {
             $result = $conn->query($sql);
-            if ($result === false) 
-            {
+            if ($result === false) {
                 throw new Exception("Query failed: " . $conn->error);
             }
         }
@@ -63,5 +57,3 @@ class Database
         return $result;
     }
 }
-
-?>

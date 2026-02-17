@@ -18,6 +18,11 @@ class Table
         $this->table_name = $table_name;
     }
 
+    public function __destruct()
+    {
+        $this->db->disconnect();
+    }
+
     private function getTotalPages(): int
     {
         $result = $this->db->query("SELECT COUNT(*) AS total FROM `{$this->table_name}`");
@@ -30,7 +35,7 @@ class Table
     {
         $page = $_GET['page'] ?? null;
 
-        return isset($page) && is_numeric($page) ? max(1, (int) $page): 1;
+        return isset($page) && is_numeric($page) ? max(1, (int) $page) : 1;
     }
 
     private function getPageContent(): mysqli_result
@@ -45,8 +50,7 @@ class Table
 
     private function renderRow(array $row, array $fields): void
     {
-        foreach ($fields as $label => $config) 
-        {
+        foreach ($fields as $label => $config) {
             $key   = $config['key'];
             $class = $config['class'] ?? '';
             $value = $row[$key] ?? '';
@@ -63,15 +67,16 @@ class Table
 
     private function renderBody(array $fields): void
     {
-        $editFile_path = Config::$BASE_URL . 'view/edit/edit.php';
         $result = $this->getPageContent();
-        while ($row = $result->fetch_assoc()) 
-        {
+        while ($row = $result->fetch_assoc()) {
+            $id = (int) $row['id'];
+            $table = h($this->table_name);
+
             echo '<tr>';
             $this->renderRow($row, $fields);
             echo '<td class="actions">';
-            echo "<a href=\"{$editFile_path}?type={$this->table_name}&id={$row['id']}\">Edit</a>";
-            echo "<a class=\"danger\" onclick=\"deleteRecord({$row['id']}, '{$this->table_name}')\">Delete</a>";
+            echo "<a class=\"edit-link\" data-id=\"$id\" data-table=\"$table\">Edit</a>";
+            echo "<a class=\"danger delete-link\" data-id=\"$id\" data-table=\"$table\">Delete</a>";
             echo '</td>';
             echo '</tr>';
         }
@@ -80,12 +85,19 @@ class Table
     private function renderHeader(array $fields): void
     {
         echo '<tr>';
-        foreach ($fields as $label => $config) 
-        {
+        foreach ($fields as $label => $config) {
             echo '<th data-label="' . h($label) . '">' . h($label) . '</th>';
         }
         echo '<th data-label="Actions"></th>';
         echo '</tr>';
+    }
+
+    public function getTotalRecordCount()
+    {
+        $query = $this->db->query("SELECT COUNT(*) AS total_count FROM {$this->table_name}");
+        $row = $query->fetch_assoc();
+
+        return (int) $row['total_count'];
     }
 
     public function render(array $fields, string $class_name): void
@@ -107,28 +119,23 @@ class Table
         echo '<div class="pagination">';
         $this->pagination();
         echo '</div>';
-
-        $this->db->disconnect();
     }
 
     public function pagination(): void
     {
         $currentPage = $this->getCurrentPage();
-        if ($currentPage > 1)
-        {
+        if ($currentPage > 1) {
             echo '<a href="?page=' . ($currentPage - 1) . '">&laquo; Prev</a>';
         }
 
-        for ($i = 1; $i <= $this->getTotalPages(); $i++)
-        {
+        for ($i = 1; $i <= $this->getTotalPages(); $i++) {
             echo '<a href="?page=' . $i . '" class="'
                 . ($i === $currentPage ? 'active' : '') . '">'
                 . $i
                 . '</a>';
         }
 
-        if ($currentPage < $this->getTotalPages())
-        {
+        if ($currentPage < $this->getTotalPages()) {
             echo '<a href="?page=' . ($currentPage + 1) . '">Next &raquo;</a>';
         }
     }

@@ -14,6 +14,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
@@ -24,20 +25,30 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
     <title>EduEventManager - Students</title>
 </head>
+
 <body>
 
-<?= Header::render("Students") ?>
+    <?= Header::render("Students") ?>
 
-<main class="events-page">
+    <main class="events-page">
 
-<?php
-    $table = new Table("Student");
-    $table->render($student_fields, "student-table");
-?>
+        <?php
+        $table = new Table("Student");
+        $table->render($student_fields, "student-table");
+        ?>
 
-</main>
+        <section class="table-footer">
+            <section class="record-count">
+                Total Students: <?php echo $table->getTotalRecordCount() ?>
+            </section>
 
-<script src="js/app.js"></script>
+            <a class="btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=Student">Add Student</a>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
 
 </body>
+
 </html>

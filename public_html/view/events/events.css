@@ -44,6 +44,48 @@ main
     border: 1px dashed var(--secondary-color);
 }
 
+.events-page a[href*="add.php"] {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px 0;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.events-page a[href*="add.php"]:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.events-page a[href*="add.php"]:active {
+    transform: translateY(0);
+}
+
+.table-footer {
+    width: 90%;
+    margin: 10px auto 30px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.table-footer .record-count {
+    font-family: Arial, sans-serif;
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    background-color: var(--light-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+
 @media (max-width: 1300px) 
 {
     main 

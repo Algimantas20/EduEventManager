@@ -1,17 +1,11 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once __DIR__ . "/../Config.php";
+require_once __DIR__ . "../../../Config.php";
 require_once PROJECT_ROOT . "src/database.php";
 
-class EditForm
+class AddForm
 {
-    private Database $db;
     private string $table_name;
-    private int $record_id;
 
     private const ALLOWED_TABLES =
     [
@@ -25,7 +19,7 @@ class EditForm
         'Student ID'   => ['key' => 'student_id', 'readonly' => true],
         'First Name'   => ['key' => 'first_name'],
         'Last Name'    => ['key' => 'last_name'],
-        'Date of Birth'=> ['key' => 'date_of_birth', 'type' => 'date'],
+        'Date of Birth' => ['key' => 'date_of_birth', 'type' => 'date'],
         'Address'      => ['key' => 'address'],
         'Class'        => ['key' => 'class'],
         'Created At'   => ['key' => 'created_at', 'readonly' => true],
@@ -52,55 +46,29 @@ class EditForm
         'Status'           => ['key' => 'status', 'type' => 'status'],
     ];
 
-    public function __construct(string $table, int $record_id)
+    public function __construct(string $table)
     {
-        if (!in_array($table, self::ALLOWED_TABLES, true))
-        {
+        if (!in_array($table, self::ALLOWED_TABLES, true)) {
             throw new Exception("Invalid table name.");
         }
 
-        if ($record_id <= 0)
-        {
-            throw new Exception("Invalid record ID.");
-        }
-
-        $this->db = new Database();
         $this->table_name = $table;
-        $this->record_id = $record_id;
     }
 
     public function render(string $form_id, string $method, string $action): void
     {
         echo "<form id=\"{$form_id}\" method=\"{$method}\" action=\"{$action}\">";
 
-        $record = $this->getRecord();
         $fields = $this->getFieldsForTable();
+        $this->renderFields($fields);
 
-        $this->renderFields($record, $fields);
-
-        echo "<input type=\"hidden\" name=\"id\" value=\"{$this->record_id}\">";
-        echo "<button type=\"submit\">Save</button>";
-
+        echo "<button type=\"submit\">Add</button>";
         echo "</form>";
-    }
-
-    private function getRecord(): array
-    {
-        $result = $this->db->query("SELECT * FROM `{$this->table_name}` WHERE id = {$this->record_id} LIMIT 1");
-        $row = $result->fetch_assoc();
-
-        if (!$row)
-        {
-            throw new Exception("Record not found.");
-        }
-
-        return $row;
     }
 
     private function getFieldsForTable(): array
     {
-        return match ($this->table_name)
-        {
+        return match ($this->table_name) {
             "Student" => self::STUDENT_FIELDS,
             "Event" => self::EVENT_FIELDS,
             "Participation" => self::PARTICIPATION_FIELDS,
@@ -108,52 +76,42 @@ class EditForm
         };
     }
 
-    private function renderFields(array $record, array $fields): void
+    private function renderFields(array $fields): void
     {
-        foreach ($fields as $label => $config)
-        {
-            $key = $config['key'];
-
-            if (!array_key_exists($key, $record))
-            {
+        foreach ($fields as $label => $config) {
+            if (!empty($config['readonly'])) {
                 continue;
             }
 
-            $value = h((string)$record[$key]);
+            $key = $config['key'];
             $type = $config['type'] ?? 'text';
-            $readonly = !empty($config['readonly']) ? 'readonly' : '';
 
             echo "<div>";
-            echo "<label>{$label}</label><br>";
+            echo "<label>{$label}</label>";
 
-            if ($type === 'status')
-            {
-                $this->renderStatusInput($value);
-            }
-            else
-            {
-                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"{$value}\" {$readonly}>";
+            if ($type === 'status') {
+                $this->renderStatusInput();
+            } else {
+                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"\">";
             }
 
-            echo "</div><br>";
+            echo "</div>";
         }
     }
 
-    private function renderStatusInput(string $currentValue): void
+    private function renderStatusInput(): void
     {
         $options =
-        [
-            'A' => 'Active',
-            'I' => 'Inactive',
-            'D' => 'Deleted'
-        ];
+            [
+                'A' => 'Active',
+                'I' => 'Inactive',
+                'D' => 'Deleted'
+            ];
 
         echo "<select name=\"status\">";
 
-        foreach ($options as $value => $label)
-        {
-            $selected = ($value === $currentValue) ? "selected" : "";
-            echo "<option value=\"{$value}\" {$selected}>{$label}</option>";
+        foreach ($options as $value => $label) {
+            echo "<option value=\"{$value}\">{$label}</option>";
         }
 
         echo "</select>";

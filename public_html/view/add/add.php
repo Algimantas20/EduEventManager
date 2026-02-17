@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once '../../../src/Config.php';
-require_once PROJECT_ROOT . 'src/components/Forms/EditForm.php';
+require_once PROJECT_ROOT . 'src/components/Forms/AddForm.php';
 require_once PROJECT_ROOT . 'src/components/Header.php';
 ?>
 
@@ -15,7 +15,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
     <meta charset="UTF-8">
 
     <link rel="stylesheet" href="../../styles/components/header.css">
-    <link rel="stylesheet" href="edit.css">
+    <link rel="stylesheet" href="add.css">
 
     <title>EduEventManager</title>
 </head>
@@ -28,15 +28,14 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
         <?php
         $table = $_GET['type'] ?? '';
-        $id = intval($_GET['id'] ?? 0);
 
-        $form = new EditForm($table, $id);
-        $form->render("UpdateForm", "POST", "");
+        $form = new AddForm($table);
+        $form->render("AddForm", "POST", PROJECT_ROOT . "public_html/api/api_update.php");
         ?>
 
     </main>
 
-    <script src="../../js/app.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
