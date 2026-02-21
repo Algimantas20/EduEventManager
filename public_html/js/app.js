@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const updateForm = document.getElementById("UpdateForm");
-
     async function deleteRecord(id, table, row) {
         if (!confirm("Delete record?")) return;
 
@@ -19,35 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             console.error("JS ERROR:", err);
             alert("Error deleting record");
-        }
-    }
-
-    async function updateRecord(id, table, row, form) {
-        if (!confirm("Update record?")) return;
-
-        try {
-            const formData = new FormData(form);
-            const data = new FormData();
-            data.append("id", id);
-            data.append("table", table);
-
-        for (const [key, value] of formData.entries()) {
-            data.append(key, value);
-        }
-
-            const response = await fetch("../../api/api_update.php", { method: "POST", body: data });
-            const result = await response.text();
-            alert(result);
-
-            if (row) {
-                for (const [key, value] of formData.entries()) {
-                    const cell = row.querySelector(`td[data-field="${key}"]`);
-                    if (cell) cell.textContent = value;
-                }
-            }
-        } catch (err) {
-            console.error("JS ERROR:", err);
-            alert("Error updating record");
         }
     }
 
@@ -71,20 +40,4 @@ document.addEventListener("DOMContentLoaded", () => {
             edit(id, tableName);
         }
     });
-
-    if (updateForm) {
-        updateForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-            console.log("Form submit detected");
-
-            const id = updateForm.querySelector('[name="id"]').value;
-            const table = updateForm.querySelector('[name="table"]').value;
-            const row = document.querySelector(`tr[data-id="${id}"]`); // optional
-
-            console.log(`ID: ${id}, Table: ${table}`);
-
-            await updateRecord(id, table, row, updateForm);
-        });
-    }
-
 });

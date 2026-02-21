@@ -36,7 +36,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
     </main>
 
-    <script src="../../js/app.js"></script>
+    <script src="../../js/api_update.js"></script>
 </body>
 
 </html>
