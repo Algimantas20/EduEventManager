@@ -8,7 +8,8 @@ class Header
         $pages = [
             'Home'       => $basePath . '/home',
             'Events'     => $basePath . '/events',
-            'Students'   => $basePath . '/students'
+            'Students'   => $basePath . '/students',
+            'Participations' => $basePath . '/participations'
         ];
 
         echo '<header>';

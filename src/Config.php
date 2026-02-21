@@ -44,3 +44,16 @@ $event_fields = [
         'class' => 'status %s'
     ],
 ];
+
+global $participation_fields;
+$participation_fields = [
+    'Participation ID' => ['key' => 'id'],
+    'Student' => ['key' => 'student_name'], // resolved via JOIN (e.g., CONCAT(first_name, " ", last_name))
+    'Event' => ['key' => 'event_name'],     // resolved via JOIN from events table
+    'Participation Status' => ['key' => 'participation_status'],
+    'Created At' => ['key' => 'created_at'],
+    'Status' => [
+        'key'   => 'status',
+        'class' => 'status %s'
+    ],
+];

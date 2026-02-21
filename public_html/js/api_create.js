@@ -54,11 +54,15 @@ document.getElementById("submit-button").addEventListener("click", (event) =>
 
 document.addEventListener("DOMContentLoaded", () =>
 {
+    const participationField = document.getElementsByName("participation_id")[0];
+    if (participationField)
+    {
+        participationField.value = createRecordId()
+        return;
+    }
     const studentField = document.getElementsByName("student_id")[0];
     const eventField = document.getElementsByName("event_id")[0];
-    const participationField = document.getElementsByName("participation_id")[0];
 
     if (studentField) studentField.value = createRecordId();
     else if (eventField) eventField.value = createRecordId();
-    else if (participationField) participationField.value = createRecordId();
 });
