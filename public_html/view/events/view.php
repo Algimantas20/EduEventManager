@@ -42,6 +42,7 @@ require_once PROJECT_ROOT . 'src/components/Table.php';
     </main>
 
     <script src="js/app.js"></script>
+    <script src="js/api_delete.js"></script>
 
 </body>
 
