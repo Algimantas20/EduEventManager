@@ -1,9 +1,10 @@
-<?php 
+<?php
 require_once '../../../src/Config.php';
-require_once PROJECT_ROOT . 'src/components/Header.php'; 
+require_once PROJECT_ROOT . 'src/components/Header.php';
 ?>
 
 <html>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
@@ -13,6 +14,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
     <title>EduEventManager</title>
 </head>
+
 <body>
     <?= Header::render("Home") ?>
 
@@ -20,4 +22,5 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
     </main>
 </body>
+
 </html>

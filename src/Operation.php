@@ -8,7 +8,8 @@ require_once PROJECT_ROOT . "src/database.php";
 class Operation
 {
 
-    private const ALLOWED_TABLES = [
+    private const ALLOWED_TABLES =
+    [
         'Participation',
         'Event',
         'Student'
@@ -63,6 +64,37 @@ class Operation
         );
 
         (new Database())->query($sql, $params);
+
+        return true;
+    }
+
+    public static function create(string $table, array $data): bool
+    {
+        self::validateTable($table);
+
+        if (isset($data['id'])) {
+            throw new InvalidArgumentException("ID should not be provided for creation");
+        }
+
+        $data = array_filter($data, fn($v) => $v !== null && $v !== '');
+
+        if (empty($data)) {
+            throw new InvalidArgumentException("No data provided");
+        }
+
+        $columns = array_keys($data);
+        $values  = array_values($data);
+
+        $placeholders = implode(', ', array_fill(0, count($columns), '?'));
+
+        $sql = sprintf(
+            "INSERT INTO `%s` (%s) VALUES (%s)",
+            $table,
+            implode(', ', array_map(fn($col) => "`$col`", $columns)),
+            $placeholders
+        );
+
+        (new Database())->query($sql, $values, true);
 
         return true;
     }

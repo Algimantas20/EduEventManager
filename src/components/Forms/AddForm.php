@@ -55,14 +55,14 @@ class AddForm
         $this->table_name = $table;
     }
 
-    public function render(string $form_id, string $method, string $action): void
+    public function render(string $form_id, string $method = "POST", string $action = ""): void
     {
-        echo "<form id=\"{$form_id}\" method=\"{$method}\" action=\"{$action}\">";
+        echo "<form id=\"{$form_id}\" method=\"{$method}\" action=\"{$action}\" data-table=\"{$this->table_name}\" >";
 
         $fields = $this->getFieldsForTable();
         $this->renderFields($fields);
 
-        echo "<button type=\"submit\">Add</button>";
+        echo "<button id=\"submit-button\" type=\"submit\">Add</button>";
         echo "</form>";
     }
 
@@ -79,36 +79,53 @@ class AddForm
     private function renderFields(array $fields): void
     {
         foreach ($fields as $label => $config) {
-            if (!empty($config['readonly'])) {
-                continue;
-            }
+            $isReadonly = !empty($config['readonly']);
 
-            $key = $config['key'];
+            $key  = $config['key'];
             $type = $config['type'] ?? 'text';
 
             echo "<div>";
             echo "<label>{$label}</label>";
 
             if ($type === 'status') {
-                $this->renderStatusInput();
+                $this->renderStatusInput($key, $isReadonly);
+            } else if ($key === 'created_at') {
+                $this->renderDateInput($key, $isReadonly);
             } else {
-                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"\">";
+                $readonlyAttr = $isReadonly ? ' readonly' : '';
+                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"\"{$readonlyAttr}>";
             }
 
             echo "</div>";
         }
     }
 
-    private function renderStatusInput(): void
-    {
-        $options =
-            [
-                'A' => 'Active',
-                'I' => 'Inactive',
-                'D' => 'Deleted'
-            ];
 
-        echo "<select name=\"status\">";
+    private function renderDateInput(string $key, bool $readonly): void
+    {
+        $readonlyAttr = $readonly ? ' readonly' : '';
+
+        $value = ($key === 'created_at')
+            ? date('Y-m-d')
+            : '';
+
+        echo "<input 
+            type=\"date\" 
+            name=\"" . htmlspecialchars($key) . "\" 
+            value=\"" . htmlspecialchars($value) . "\"{$readonlyAttr}>";
+    }
+
+    private function renderStatusInput(string $key, bool $readonly): void
+    {
+        $options = [
+            'A' => 'Active',
+            'I' => 'Inactive',
+            'D' => 'Deleted'
+        ];
+
+        $disabledAttr = $readonly ? ' disabled' : '';
+
+        echo "<select name=\"{$key}\"{$disabledAttr}>";
 
         foreach ($options as $value => $label) {
             echo "<option value=\"{$value}\">{$label}</option>";

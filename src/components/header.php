@@ -15,8 +15,7 @@ class Header
         echo '<h1>EduEventManager</h1>';
         echo '<nav>';
 
-        foreach ($pages as $title => $url) 
-        {
+        foreach ($pages as $title => $url) {
             $class = ($title === $currentPageTitle) ? ' class="active"' : '';
             echo '<a href="' . $url . '"' . $class . '>' . $title . '</a> ';
         }
@@ -25,4 +24,3 @@ class Header
         echo '</header>';
     }
 }
-?>

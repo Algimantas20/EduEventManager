@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Update a record
     async function updateRecord(id, table, row, form) {
         if (!confirm("Update record?")) return;
 
@@ -52,12 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Edit action
     function edit(id, table) {
         window.location.href = `view/edit/edit.php?type=${table}&id=${id}`;
     }
 
-    // Handle clicks for delete/edit links
     document.addEventListener("click", (event) => {
         const btn = event.target.closest("a");
         if (!btn) return;
