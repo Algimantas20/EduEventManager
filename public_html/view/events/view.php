@@ -28,7 +28,7 @@ require_once PROJECT_ROOT . 'src/components/Table.php';
     <main class="events-page">
 
         <?php
-        $table = new Table("Event");
+        $table = new Table("events");
         $table->render($event_fields, "event-table");
         ?>
 
@@ -37,7 +37,7 @@ require_once PROJECT_ROOT . 'src/components/Table.php';
                 Total Events: <?php echo $table->getTotalRecordCount() ?>
             </section>
 
-            <a class=" btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=Event">Add Event</a>
+            <a class=" btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=events">Add Event</a>
         </section>
     </main>
 

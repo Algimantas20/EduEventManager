@@ -33,7 +33,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
     <main class="events-page">
 
         <?php
-        $table = new Table("Student");
+        $table = new Table("students");
         $table->render($student_fields, "student-table");
         ?>
 
@@ -42,7 +42,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
                 Total Students: <?php echo $table->getTotalRecordCount() ?>
             </section>
 
-            <a class="btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=Student">Add Student</a>
+            <a class="btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=students">Add Student</a>
         </section>
 
     </main>

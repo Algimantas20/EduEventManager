@@ -10,9 +10,9 @@ class Operation
 
     private const ALLOWED_TABLES =
     [
-        'Participation',
-        'Event',
-        'Student'
+        'participations',
+        'events',
+        'students'
     ];
 
     public static function delete(int $id, string $table): bool

@@ -9,9 +9,9 @@ class AddForm
 
     private const ALLOWED_TABLES =
     [
-        "Student",
-        "Event",
-        "Participation"
+        "students",
+        "events",
+        "participations"
     ];
 
     private const STUDENT_FIELDS =
@@ -69,9 +69,9 @@ class AddForm
     private function getFieldsForTable(): array
     {
         return match ($this->table_name) {
-            "Student" => self::STUDENT_FIELDS,
-            "Event" => self::EVENT_FIELDS,
-            "Participation" => self::PARTICIPATION_FIELDS,
+            "students" => self::STUDENT_FIELDS,
+            "events" => self::EVENT_FIELDS,
+            "participations" => self::PARTICIPATION_FIELDS,
             default => throw new Exception("Unknown table.")
         };
     }
