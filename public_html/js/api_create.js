@@ -8,22 +8,39 @@ function createFormData(table, data)
     {
         formData.append(key, data[key]);
     }
+
+    validateData(table, data);
+
     return formData;
 }
 
-function assignRecordId()
+function validateData(table, data)
 {
-    const participationField = document.getElementsByName("participation_id")[0];
-    if (participationField)
+    if (table === "events") 
     {
-        participationField.value = createRecordId()
-        return;
+        validateEventData(data);
+    } else if (table === "students")
+    {
+        validateStudentData(data);
     }
-    const studentField = document.getElementsByName("student_id")[0];
-    const eventField = document.getElementsByName("event_id")[0];
+}
 
-    if (studentField) studentField.value = createRecordId();
-    else if (eventField) eventField.value = createRecordId();
+function validateEventData(data)
+{
+    if (new Date(data.event_date) < new Date(data.created_at))
+    {
+        alert("Event date cannot be in the past.");
+        throw new Error("Invalid event date");
+    }
+}
+
+function validateStudentData(data)
+{
+    if (new Date(data.date_of_birth) > new Date(data.created_at))
+    {
+        alert("Date of birth cannot be in the future.");
+        throw new Error("Invalid date of birth");
+    }
 }
 
 function createRecord(table, data) 
@@ -40,13 +57,11 @@ function createRecord(table, data)
         .then(result => { alert(result);})
         .catch(error => {
             console.error("Error creating record:", error);
-            alert("Error creating record");
         });
     } 
     catch (error) 
     {
         console.error("Error creating record:", error);
-        alert("Error creating record");
     }
 }
 
