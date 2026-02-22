@@ -28,9 +28,16 @@ function handleRequest()
 
     try {
         Operation::update($table, (int)$id, $data);
-        echo "Record updated successfully!";
+        echo json_encode([
+            "success" => true,
+            "message" => "Record updated successfully!"
+        ]);
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        http_response_code(400);
+        echo json_encode([
+            "success" => false,
+            "message" => $e->getMessage()
+        ]);
     }
 }
 

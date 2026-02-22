@@ -19,11 +19,14 @@ class Operation
     {
         self::validateId($id);
         self::validateTable($table);
-
-        (new Database())->query(
-            "DELETE FROM `$table` WHERE id = ?",
-            [$id]
-        );
+        try {
+            (new Database())->query(
+                "DELETE FROM `$table` WHERE id = ?",
+                [$id]
+            );
+        } catch (Exception $e) {
+            throw new Exception("Failed to delete record: " . $e->getMessage());
+        }
 
         return true;
     }

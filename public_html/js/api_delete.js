@@ -1,48 +1,50 @@
-async function deleteRecord(id, table, row) 
+async function deleteRecord(id, table) 
 {
     if (!confirm("Delete record?")) return;
 
     try 
     {
+        const body = `id=${encodeURIComponent(id)}&table=${encodeURIComponent(table)}`;
+
         const response = await fetch("api/api_delete.php", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `id=${id}&table=${table}`
+            body: body
         });
 
-        const result = await response.text();
-        alert(result);
+        if (!response.ok) 
+        {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-        window.location.reload();
+        const result = await response.json();
+
+        alert(result.message);
+
+        if (result.success) 
+        {
+            window.location.reload();
+        }
     } 
-    catch (err) 
+    catch (error) 
     {
-        console.error("ERROR:", err);
+        console.error("Error deleting record:", error);
         alert("Error deleting record");
     }
 }
 
-async function deleteEventListener(event) 
-{
-    const link = event.target.closest("a");
-    const id = link.dataset.id;
-    const tableName = link.dataset.table;
-    const row = link.closest("tr");
-
-    deleteRecord(id, tableName, row);
-}
-
-
 document.addEventListener("DOMContentLoaded", () => 
 {
-    const deleteLinks = document.querySelectorAll(".delete-link");
-
-    deleteLinks.forEach(link => 
+    document.querySelectorAll(".delete-link").forEach(link => 
     {
-        link.addEventListener("click", async (event) => 
+        link.addEventListener("click", event => 
         {
             event.preventDefault();
-            deleteEventListener(event);
+
+            const id = link.dataset.id;
+            const tableName = link.dataset.table;
+
+            deleteRecord(id, tableName);
         });
     });
 });

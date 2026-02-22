@@ -43,17 +43,28 @@ function validateData($table, $data)
 
 function handleRequest()
 {
-    $table = $_POST['table'] ?? '';
-
-    $data = $_POST;
-    unset($data['table']);
-
     try {
+        $table = $_POST['table'] ?? '';
+
+        $data = $_POST;
+        unset($data['table']);
+
         validateData($table, $data);
+
         Operation::create($table, $data);
-        echo "Record created successfully!";
+
+        echo json_encode([
+            "success" => true,
+            "message" => "Record created successfully!"
+        ]);
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+
+        http_response_code(400);
+
+        echo json_encode([
+            "success" => false,
+            "message" => $e->getMessage()
+        ]);
     }
 }
 

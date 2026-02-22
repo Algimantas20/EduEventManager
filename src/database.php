@@ -1,5 +1,7 @@
 <?php
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 class Database
 {
     private $server_name = "localhost";
@@ -37,23 +39,34 @@ class Database
 
         if ($params) {
             $stmt = $conn->prepare($sql);
+
             if (!$stmt) {
                 throw new Exception("Prepare failed: " . $conn->error);
             }
 
             $types = str_repeat('s', count($params));
             $stmt->bind_param($types, ...$params);
+
             $stmt->execute();
+
+            if (stripos(trim($sql), 'select') !== 0) {
+                $affected = $stmt->affected_rows;
+                $stmt->close();
+                return $affected >= 0;
+            }
 
             $result = $stmt->get_result();
             $stmt->close();
+
+            return $result;
         } else {
             $result = $conn->query($sql);
+
             if ($result === false) {
                 throw new Exception("Query failed: " . $conn->error);
             }
-        }
 
-        return $result;
+            return $result;
+        }
     }
 }

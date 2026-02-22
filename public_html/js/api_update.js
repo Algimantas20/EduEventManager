@@ -20,10 +20,13 @@ async function updateRecord(id, table, row, form)
 
     try {
         const data = createFormData(form, id, table);
-        const response = await fetch("../../api/api_update.php", { method: "POST", body: data });
-        const result = await response.text();
-        alert(result);
-
+        const response = await fetch("../../api/api_update.php", { method: "POST", body: data })
+            .then(response => response.json())
+            .then(result => { alert(result.message); })
+            .catch(error => {
+                console.error("Error updating record:", error);
+            });
+            
         if (row) 
         {
             for (const [key, value] of formData.entries()) 

@@ -53,8 +53,8 @@ function createRecord(table, data)
             method: "POST",
             body: formData
         })
-        .then(response => response.text())
-        .then(result => { alert(result);})
+        .then(response => response.json())
+        .then(result => { alert(result.message); })
         .catch(error => {
             console.error("Error creating record:", error);
         });
