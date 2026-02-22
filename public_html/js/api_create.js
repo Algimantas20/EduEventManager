@@ -1,8 +1,3 @@
-function createRecordId()
-{
-    return Math.floor(1000 + Math.random() * 9000);
-}
-
 function createFormData(table, data)
 {
     const formData = new FormData();
@@ -58,8 +53,6 @@ function createRecord(table, data)
 document.addEventListener("DOMContentLoaded", () =>
 {
     const form = document.getElementById("AddForm");
-
-    assignRecordId();
 
     if (!form) return;
 

@@ -19,7 +19,7 @@ class AddForm
         'Student ID'   => ['key' => 'student_id', 'readonly' => true],
         'First Name'   => ['key' => 'first_name', 'required' => true],
         'Last Name'    => ['key' => 'last_name', 'required' => true],
-        'Date of Birth'=> ['key' => 'date_of_birth', 'type' => 'date', 'required' => true],
+        'Date of Birth' => ['key' => 'date_of_birth', 'type' => 'date', 'required' => true],
         'Address'      => ['key' => 'address', 'required' => true],
         'Class'        => ['key' => 'class', 'required' => true],
         'Created At'   => ['key' => 'created_at', 'readonly' => true],
@@ -66,6 +66,24 @@ class AddForm
         echo "</form>";
     }
 
+    private function generateRecordId(): string
+    {
+        $db = new Database();
+
+        while (true) {
+            $candidateId = random_int(1000, 9999);
+
+            $result = $db->query(
+                "SELECT 1 FROM {$this->table_name} WHERE id = {$candidateId} LIMIT 1"
+            );
+
+            if (!$result || $result->num_rows === 0) {
+                $db->disconnect();
+                return (string)$candidateId;
+            }
+        }
+    }
+
     private function getFieldsForTable(): array
     {
         return match ($this->table_name) {
@@ -86,7 +104,7 @@ class AddForm
             $attributes = $this->buildAttributes($config);
 
             echo "<div>";
-            echo "<label>{$label}</label>";
+            echo "<label id=\"{$key}\">{$label}</label>";
 
             if ($type === 'status') {
                 $this->renderStatusInput($key, $attributes);
@@ -94,6 +112,9 @@ class AddForm
                 $this->renderDropdownInput($key, $attributes);
             } elseif ($key === 'created_at') {
                 $this->renderDateInput($key, $attributes);
+            } elseif ($key === 'event_id' || $key === 'student_id') {
+                $generatedId = $this->generateRecordId();
+                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"{$generatedId}\" {$attributes}>";
             } else {
                 echo "<input type=\"{$type}\" name=\"{$key}\" {$attributes}>";
             }
@@ -129,11 +150,11 @@ class AddForm
     private function renderStatusInput(string $key, string $attributes): void
     {
         $options =
-        [
-            'A' => 'Active',
-            'I' => 'Inactive',
-            'D' => 'Deleted'
-        ];
+            [
+                'A' => 'Active',
+                'I' => 'Inactive',
+                'D' => 'Deleted'
+            ];
 
         echo "<select name=\"" . htmlspecialchars($key) . "\" {$attributes}>";
 
