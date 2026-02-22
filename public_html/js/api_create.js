@@ -16,6 +16,21 @@ function createFormData(table, data)
     return formData;
 }
 
+function assignRecordId()
+{
+    const participationField = document.getElementsByName("participation_id")[0];
+    if (participationField)
+    {
+        participationField.value = createRecordId()
+        return;
+    }
+    const studentField = document.getElementsByName("student_id")[0];
+    const eventField = document.getElementsByName("event_id")[0];
+
+    if (studentField) studentField.value = createRecordId();
+    else if (eventField) eventField.value = createRecordId();
+}
+
 function createRecord(table, data) 
 {
     try
@@ -40,29 +55,28 @@ function createRecord(table, data)
     }
 }
 
-document.getElementById("submit-button").addEventListener("click", (event) =>
-{
-    event.preventDefault();
-
-    const form = event.target.closest("form");
-    const table = form.dataset.table;
-
-    const dataObject = Object.fromEntries(new FormData(form).entries());
-
-    createRecord(table, dataObject);
-});
-
 document.addEventListener("DOMContentLoaded", () =>
 {
-    const participationField = document.getElementsByName("participation_id")[0];
-    if (participationField)
-    {
-        participationField.value = createRecordId()
-        return;
-    }
-    const studentField = document.getElementsByName("student_id")[0];
-    const eventField = document.getElementsByName("event_id")[0];
+    const form = document.getElementById("AddForm");
 
-    if (studentField) studentField.value = createRecordId();
-    else if (eventField) eventField.value = createRecordId();
+    assignRecordId();
+
+    if (!form) return;
+
+    form.addEventListener("submit", (event) =>
+    {
+        if (!form.checkValidity())
+        {
+            form.reportValidity();
+            event.preventDefault();
+            return;
+        }
+
+        event.preventDefault();
+
+        const table = form.dataset.table;
+        const dataObject = Object.fromEntries(new FormData(form).entries());
+
+        createRecord(table, dataObject);
+    });
 });
