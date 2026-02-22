@@ -39,11 +39,11 @@ class AddForm
 
     private const PARTICIPATION_FIELDS =
     [
-        'Participation ID' => ['key' => 'participation_id', 'readonly' => true],
-        'Student ID'       => ['key' => 'student_id'],
-        'Event ID'         => ['key' => 'event_id'],
-        'Created At'       => ['key' => 'created_at', 'readonly' => true],
-        'Status'           => ['key' => 'status', 'type' => 'status'],
+        'Student ID'           => ['key' => 'student_id', 'type' => 'dropdown'],
+        'Event ID'             => ['key' => 'event_id', 'type' => 'dropdown'],
+        'Participation Status' => ['key' => 'participation_status'],
+        'Created At'           => ['key' => 'created_at', 'readonly' => true],
+        'Status'               => ['key' => 'status', 'type' => 'status'],
     ];
 
     public function __construct(string $table)
@@ -89,6 +89,8 @@ class AddForm
 
             if ($type === 'status') {
                 $this->renderStatusInput($key, $isReadonly);
+            } else if ($type === 'dropdown') {
+                $this->renderDropdownInput($key);
             } else if ($key === 'created_at') {
                 $this->renderDateInput($key, $isReadonly);
             } else {
@@ -132,5 +134,62 @@ class AddForm
         }
 
         echo "</select>";
+    }
+
+    private function renderDropdownInput(string $key): void
+    {
+        $values = $this->getDropdownValues($key);
+
+        echo "<select name=\"" . htmlspecialchars($key) . "\">";
+
+        foreach ($values as $id => $label)
+        {
+            echo "<option value=\"" . htmlspecialchars((string)$id) . "\">"
+                . htmlspecialchars($label)
+                . "</option>";
+        }
+
+        echo "</select>";
+    }
+
+    private function getDropdownValues(string $key): array
+    {
+        $db = new Database();
+
+        if ($key === 'student_id')
+        {
+            $sql = "
+                SELECT id, CONCAT(first_name, ' ', last_name) AS label
+                FROM students
+                WHERE status = 'A'
+                ORDER BY first_name ASC
+            ";
+        }
+        elseif ($key === 'event_id')
+        {
+            $sql = "
+                SELECT id, name AS label
+                FROM events
+                WHERE status = 'A'
+                ORDER BY name ASC
+            ";
+        }
+        else
+        {
+            return [];
+        }
+
+        $result = $db->query($sql);
+
+        $values = [];
+
+        while ($row = $result->fetch_assoc())
+        {
+            $values[$row['id']] = $row['label'];
+        }
+
+        $db->disconnect();
+
+        return $values;
     }
 }
