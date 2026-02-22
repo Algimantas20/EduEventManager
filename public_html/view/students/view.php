@@ -34,7 +34,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
         <?php
         $table = new Table("students");
-        $table->render($student_fields, "student-table");
+        $table->render(Config::STUDENT_FIELDS, "student-table");
         ?>
 
         <section class="table-footer">

@@ -38,18 +38,41 @@ class Table
         return isset($page) && is_numeric($page) ? max(1, (int) $page) : 1;
     }
 
-    private function getPageContent(): mysqli_result
+    private function getPageContent(array $fields): mysqli_result
     {
-        $page = $this->getCurrentPage();
+        $page   = $this->getCurrentPage();
         $offset = ($page - 1) * RECORDS_PER_PAGE;
 
-        $sql = " SELECT * FROM `{$this->table_name}` ORDER BY created_at DESC LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
+        if ($fields === Config::PARTICIPATION_FIELDS)
+        {
+            $sql = "
+                SELECT 
+                    p.id,
+                    CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+                    e.name AS event_name,
+                    p.participation_status,
+                    p.created_at,
+                    p.status
+                FROM participations p
+                JOIN students s ON p.student_id = s.id
+                JOIN events e ON p.event_id = e.id
+                ORDER BY p.created_at DESC
+                LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
+        }
+        else
+        {
+            $sql = "
+                SELECT *
+                FROM `{$this->table_name}`
+                ORDER BY created_at DESC
+                LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
+        }
 
         return $this->db->query($sql);
     }
 
     private function renderRow(array $row, array $fields): void
-    {
+    {   
         foreach ($fields as $label => $config) {
             $key   = $config['key'];
             $class = $config['class'] ?? '';
@@ -67,7 +90,7 @@ class Table
 
     private function renderBody(array $fields): void
     {
-        $result = $this->getPageContent();
+        $result = $this->getPageContent($fields);
         while ($row = $result->fetch_assoc()) {
             $id = (int) $row['id'];
             $table = h($this->table_name);

@@ -29,7 +29,7 @@ require_once PROJECT_ROOT . 'src/components/Table.php';
 
         <?php
         $table = new Table("events");
-        $table->render($event_fields, "event-table");
+        $table->render(Config::EVENT_FIELDS, "event-table");
         ?>
 
         <section class="table-footer">

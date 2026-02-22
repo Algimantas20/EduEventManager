@@ -34,7 +34,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
         <?php
         $table = new Table("participations");
-        $table->render($participation_fields, "participation-table");
+        $table->render(Config::PARTICIPATION_FIELDS, "participation-table");
         ?>
 
         <section class="table-footer">
