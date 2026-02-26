@@ -9,7 +9,7 @@ class Config
 {
     public static string $BASE_URL = "/~PII50461LA/";
 
-    public const PARTICIPATION_FIELDS = 
+    public const PARTICIPATION_FIELDS =
     [
         'Student' => ['key' => 'student_name'], // resolved via JOIN (e.g., CONCAT(first_name, " ", last_name))
         'Event' => ['key' => 'event_name'],     // resolved via JOIN from events table
@@ -49,6 +49,13 @@ class Config
             'class' => 'status %s'
         ],
     ];
+
+    public const STATUS_FIELDS =
+    [
+        'A' => 'Active',
+        'I' => 'Inactive',
+        'D' => 'Deleted'
+    ];
 }
 
 
@@ -56,5 +63,3 @@ function h(mixed $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
-
-

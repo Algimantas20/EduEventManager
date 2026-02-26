@@ -4,6 +4,7 @@ define("RECORDS_PER_PAGE", 10);
 
 require_once '../../../src/Config.php';
 require_once PROJECT_ROOT . 'src/database.php';
+require_once PROJECT_ROOT . 'src/components/Input.php';
 require_once PROJECT_ROOT . 'src/components/Tables/ReportTable.php';
 
 ini_set('display_errors', 1);
@@ -28,14 +29,18 @@ class Report
 
     public function render(): void
     {
-        $this->renderSelect();
+        $data = $this->getDropdownValues($this->report_type);
+
+        $currentValue = $this->id ?? '';
+        Input::renderDropdown("{$this->report_type}_id", $data, $currentValue);
 
         if ($this->id == null) {
             echo "<p>Please select an option to view the report.</p>";
             return;
         }
 
-        (new ReportTable($this->report_type, $this->id))->render(Config::PARTICIPATION_FIELDS, "report-table");
+        (new ReportTable($this->report_type, $this->id))
+            ->render(Config::PARTICIPATION_FIELDS, "report-table");
     }
 
     private function asignType($report_type): void
@@ -46,50 +51,25 @@ class Report
         $this->report_type = $report_type;
     }
 
-    private function renderSelect(): void
+    private function getDropdownValues(string $key): array
     {
-        if ($this->report_type === 'students') {
-            $this->renderStudentSelect();
-        } else if ($this->report_type === 'events') {
-            $this->renderEventSelect();
+        if ($key === 'students') {
+            $sql = "SELECT id, CONCAT(first_name,' ',last_name) AS label FROM students";
+        } else if ($key === 'events') {
+            $sql = "SELECT id, name AS label FROM events";
         } else {
-            echo "<p>Unsupported report type.</p>";
-        }
-    }
-
-    private function renderStudentSelect(): void
-    {
-        $students = $this->db->query(
-            "SELECT id, CONCAT(first_name,' ',last_name) AS name FROM students"
-        );
-
-        echo '<select id="student_id">';
-        echo '<option disabled selected hidden>Select Student</option>';
-
-        foreach ($students as $student) {
-            echo '<option value="' . h($student['id']) . '">'
-                . h($student['name'])
-                . '</option>';
+            return [];
         }
 
-        echo '</select>';
-    }
+        $result = $this->db->query($sql);
+        $values = [];
 
-    private function renderEventSelect(): void
-    {
-        $events = $this->db->query(
-            "SELECT id, name FROM events"
-        );
-
-        echo '<select id="event_id">';
-        echo '<option disabled selected hidden>Select Event</option>';
-
-        foreach ($events as $event) {
-            echo '<option value="' . h($event['id']) . '">'
-                . h($event['name'])
-                . '</option>';
+        while ($row = $result->fetch_assoc()) {
+            $values[$row['id']] = $row['label'];
         }
 
-        echo '</select>';
+        $this->db->disconnect();
+
+        return $values;
     }
 }

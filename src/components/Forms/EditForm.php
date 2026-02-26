@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . "../../../Config.php";
 require_once PROJECT_ROOT . "src/database.php";
+require_once PROJECT_ROOT . "src/components/Input.php";
 
 class EditForm
 {
@@ -45,11 +46,11 @@ class EditForm
 
     private const PARTICIPATION_FIELDS =
     [
-        'Participation ID' => ['key' => 'participation_id', 'readonly' => true],
-        'Student ID'       => ['key' => 'student_id'],
-        'Event ID'         => ['key' => 'event_id'],
-        'Created At'       => ['key' => 'created_at', 'readonly' => true],
-        'Status'           => ['key' => 'status', 'type' => 'status'],
+        'Student'              => ['key' => 'student_id', 'type' => 'dropdown', 'required' => true],
+        'Event'                => ['key' => 'event_id', 'type' => 'dropdown', 'required' => true],
+        'Participation Status' => ['key' => 'participation_status', 'required' => true],
+        'Created At'           => ['key' => 'created_at', 'readonly' => true],
+        'Status'               => ['key' => 'status', 'type' => 'status', 'required' => true],
     ];
 
     public function __construct(string $table, int $record_id)
@@ -76,8 +77,9 @@ class EditForm
 
         $this->renderFields($record, $fields);
 
-        echo "<input type=\"hidden\" name=\"id\" value=\"{$this->record_id}\">";
-        echo "<input type=\"hidden\" name=\"table\" value=\"{$this->table_name}\">";
+        Input::renderInput("id", $this->record_id, "hidden", false);
+        Input::renderInput("table", $this->table_name, "hidden", false);
+
         echo "<button class=\"update-link\"type=\"submit\">Save</button>";
 
         echo "</form>";
@@ -114,39 +116,56 @@ class EditForm
                 continue;
             }
 
-            $value = h((string)$record[$key]);
+            $value = $record[$key] ?? '';
             $type = $config['type'] ?? 'text';
-            $readonly = !empty($config['readonly']) ? 'readonly' : '';
+            $readadonly = !empty($config['readonly']) ? "readonly" : '';
 
             echo "<div>";
             echo "<label>{$label}</label>";
 
             if ($type === 'status') {
-                $this->renderStatusInput($value);
+                Input::renderDropdown($key, Config::STATUS_FIELDS, $value);
+            } else if ($type === 'dropdown') {
+                Input::renderDropdown($key, $this->getDropdownValues($key), $value);
             } else {
-                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"{$value}\" {$readonly}>";
+                Input::renderInput($key, $value, $type, $readadonly);
             }
 
             echo "</div>";
         }
     }
 
-    private function renderStatusInput(string $currentValue): void
+    private function getDropdownValues(string $key): array
     {
-        $options =
-            [
-                'A' => 'Active',
-                'I' => 'Inactive',
-                'D' => 'Deleted'
-            ];
+        $db = new Database();
 
-        echo "<select name=\"status\">";
-
-        foreach ($options as $value => $label) {
-            $selected = ($value === $currentValue) ? "selected" : "";
-            echo "<option value=\"{$value}\" {$selected}>{$label}</option>";
+        if ($key === 'student_id') {
+            $sql = "
+                SELECT id, CONCAT(first_name, ' ', last_name) AS label
+                FROM students
+                WHERE status = 'A'
+                ORDER BY first_name ASC
+            ";
+        } else if ($key === 'event_id') {
+            $sql = "
+                SELECT id, name AS label
+                FROM events
+                WHERE status = 'A'
+                ORDER BY name ASC
+            ";
+        } else {
+            return [];
         }
 
-        echo "</select>";
+        $result = $db->query($sql);
+        $values = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $values[$row['id']] = $row['label'];
+        }
+
+        $db->disconnect();
+
+        return $values;
     }
 }

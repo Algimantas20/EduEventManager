@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "../../../Config.php";
 require_once PROJECT_ROOT . "src/database.php";
+require_once PROJECT_ROOT . "src/components/Input.php";
 
 class AddForm
 {
@@ -107,16 +108,15 @@ class AddForm
             echo "<label id=\"{$key}\">{$label}</label>";
 
             if ($type === 'status') {
-                $this->renderStatusInput($key, $attributes);
-            } elseif ($type === 'dropdown') {
-                $this->renderDropdownInput($key, $attributes);
-            } elseif ($key === 'created_at') {
+                Input::renderDropdown($key, Config::STATUS_FIELDS);
+            } else if ($type === 'dropdown') {
+                Input::renderDropdown($key, $this->getDropdownValues($key));
+            } else if ($key === 'created_at') {
                 $this->renderDateInput($key, $attributes);
-            } elseif ($key === 'event_id' || $key === 'student_id') {
-                $generatedId = $this->generateRecordId();
-                echo "<input type=\"{$type}\" name=\"{$key}\" value=\"{$generatedId}\" {$attributes}>";
+            } else if ($key === 'event_id' || $key === 'student_id') {
+                Input::renderInput($key, $this->generateRecordId(), $type, $attributes);
             } else {
-                echo "<input type=\"{$type}\" name=\"{$key}\" {$attributes}>";
+                Input::renderInput($key, '', $type, $attributes);
             }
 
             echo "</div>";
@@ -145,41 +145,6 @@ class AddForm
             : '';
 
         echo "<input type=\"date\" name=\"" . htmlspecialchars($key) . "\" value=\"" . htmlspecialchars($value) . "\" {$attributes}>";
-    }
-
-    private function renderStatusInput(string $key, string $attributes): void
-    {
-        $options =
-            [
-                'A' => 'Active',
-                'I' => 'Inactive',
-                'D' => 'Deleted'
-            ];
-
-        echo "<select name=\"" . h($key) . "\" {$attributes}>";
-
-        foreach ($options as $value => $label) {
-            echo "<option value=\"" . h($value) . "\">"
-                . h($label)
-                . "</option>";
-        }
-
-        echo "</select>";
-    }
-
-    private function renderDropdownInput(string $key, string $attributes): void
-    {
-        $values = $this->getDropdownValues($key);
-
-        echo "<select name=\"" . h($key) . "\" {$attributes}>";
-
-        foreach ($values as $id => $label) {
-            echo "<option value=\"" . h((string)$id) . "\">"
-                . h($label)
-                . "</option>";
-        }
-
-        echo "</select>";
     }
 
     private function getDropdownValues(string $key): array
