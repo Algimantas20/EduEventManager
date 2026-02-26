@@ -3,7 +3,7 @@ define('RECORDS_PER_PAGE', 10);
 
 require_once '../../../src/Config.php';
 require_once PROJECT_ROOT . 'src/components/Header.php';
-require_once PROJECT_ROOT . 'src/components/Table.php';
+require_once PROJECT_ROOT . 'src/components/Tables/DatabaseTable.php';
 
 ?>
 
@@ -24,11 +24,11 @@ require_once PROJECT_ROOT . 'src/components/Table.php';
 <body>
 
     <?= Header::render("Events") ?>
-
+    
     <main class="events-page">
 
         <?php
-        $table = new Table("events");
+        $table = new DatabaseTable("events");
         $table->render(Config::EVENT_FIELDS, "event-table");
         ?>
 

@@ -1,0 +1,55 @@
+@import url('../../styles/colors.css');
+
+*,
+*::before,
+*::after 
+{
+    box-sizing: border-box;
+}
+
+html, body 
+{
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6fa;
+}
+
+body 
+{
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 30px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.report-container,
+.table-container,
+.pagination {
+    width: 100%;
+}
+
+select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: var(--dark-color);
+}
+
+.table-container {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}

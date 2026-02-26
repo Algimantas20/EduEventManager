@@ -5,6 +5,7 @@ RewriteRule ^home$ view/index/index.php [L]
 RewriteRule ^events$ view/events/view.php [L]
 RewriteRule ^students$ view/students/view.php [L]
 RewriteRule ^participations$ view/participations/view.php [L]
+RewriteRule ^reports$ view/reports/view.php [L]
 
 # Optional: redirect root to home
 RewriteRule ^$ view/index/index.php [L]

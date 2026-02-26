@@ -1,21 +1,20 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../../database.php';
 
-require_once __DIR__ . '/../Config.php';
-require_once __DIR__ . '/../database.php';
-
-class Table
+class ReportTable
 {
     private string $table_name;
+    private int $id;
+
     private Database $db;
 
-    public function __construct(string $table_name)
+    public function __construct(string $table_name, int $id)
     {
         $this->db = new Database();
         $this->table_name = $table_name;
+        $this->id = (int) $id;
     }
 
     public function __destruct()
@@ -23,30 +22,32 @@ class Table
         $this->db->disconnect();
     }
 
-    private function getTotalPages(): int
+    private function buildWhere(): string
     {
-        $result = $this->db->query("SELECT COUNT(*) AS total FROM `{$this->table_name}`");
-        $total  = $result->fetch_assoc()['total'] ?? 0;
+        if ($this->table_name === "events") {
+            return "WHERE p.event_id = {$this->id}";
+        }
 
-        return max(1, (int) ceil($total / RECORDS_PER_PAGE));
+        if ($this->table_name === "students") {
+            return "WHERE p.student_id = {$this->id}";
+        }
+
+        return "";
     }
 
     private function getCurrentPage()
     {
         $page = $_GET['page'] ?? null;
-
-        return isset($page) && is_numeric($page) ? max(1, (int) $page) : 1;
+        return isset($page) && is_numeric($page) ? max(1, (int)$page) : 1;
     }
 
     private function getPageContent(array $fields): mysqli_result
     {
-        $page   = $this->getCurrentPage();
+        $page = $this->getCurrentPage();
         $offset = ($page - 1) * RECORDS_PER_PAGE;
+        $where = $this->buildWhere();
 
-        if ($fields === Config::PARTICIPATION_FIELDS)
-        {
-            $sql = "
-                SELECT 
+        $sql = "SELECT 
                     p.id,
                     CONCAT(s.first_name, ' ', s.last_name) AS student_name,
                     e.name AS event_name,
@@ -56,23 +57,15 @@ class Table
                 FROM participations p
                 JOIN students s ON p.student_id = s.id
                 JOIN events e ON p.event_id = e.id
+                $where
                 ORDER BY p.created_at DESC
                 LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
-        }
-        else
-        {
-            $sql = "
-                SELECT *
-                FROM `{$this->table_name}`
-                ORDER BY created_at DESC
-                LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
-        }
 
         return $this->db->query($sql);
     }
 
     private function renderRow(array $row, array $fields): void
-    {   
+    {
         foreach ($fields as $label => $config) {
             $key   = $config['key'];
             $class = $config['class'] ?? '';
@@ -91,16 +84,10 @@ class Table
     private function renderBody(array $fields): void
     {
         $result = $this->getPageContent($fields);
-        while ($row = $result->fetch_assoc()) {
-            $id = (int) $row['id'];
-            $table = h($this->table_name);
 
+        while ($row = $result->fetch_assoc()) {
             echo '<tr>';
             $this->renderRow($row, $fields);
-            echo '<td class="actions">';
-            echo "<a class=\"edit-link\" data-id=\"$id\" data-table=\"$table\">Edit</a>";
-            echo "<a class=\"danger delete-link\" data-id=\"$id\" data-table=\"$table\">Delete</a>";
-            echo '</td>';
             echo '</tr>';
         }
     }
@@ -111,16 +98,7 @@ class Table
         foreach ($fields as $label => $config) {
             echo '<th data-label="' . h($label) . '">' . h($label) . '</th>';
         }
-        echo '<th data-label="Actions"></th>';
         echo '</tr>';
-    }
-
-    public function getTotalRecordCount()
-    {
-        $query = $this->db->query("SELECT COUNT(*) AS total_count FROM {$this->table_name}");
-        $row = $query->fetch_assoc();
-
-        return (int) $row['total_count'];
     }
 
     public function render(array $fields, string $class_name): void
@@ -140,26 +118,6 @@ class Table
         echo '</div>';
 
         echo '<div class="pagination">';
-        $this->pagination();
         echo '</div>';
-    }
-
-    public function pagination(): void
-    {
-        $currentPage = $this->getCurrentPage();
-        if ($currentPage > 1) {
-            echo '<a href="?page=' . ($currentPage - 1) . '">&laquo; Prev</a>';
-        }
-
-        for ($i = 1; $i <= $this->getTotalPages(); $i++) {
-            echo '<a href="?page=' . $i . '" class="'
-                . ($i === $currentPage ? 'active' : '') . '">'
-                . $i
-                . '</a>';
-        }
-
-        if ($currentPage < $this->getTotalPages()) {
-            echo '<a href="?page=' . ($currentPage + 1) . '">Next &raquo;</a>';
-        }
     }
 }

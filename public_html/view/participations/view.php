@@ -8,7 +8,7 @@ define('RECORDS_PER_PAGE', 10);
 
 require_once '../../../src/Config.php';
 require_once PROJECT_ROOT . 'src/database.php';
-require_once PROJECT_ROOT . 'src/components/Table.php';
+require_once PROJECT_ROOT . 'src/components/Tables/DatabaseTable.php';
 require_once PROJECT_ROOT . 'src/components/Header.php';
 
 ?>
@@ -33,7 +33,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
     <main class="participations-page">
 
         <?php
-        $table = new Table("participations");
+        $table = new DatabaseTable("participations");
         $table->render(Config::PARTICIPATION_FIELDS, "participation-table");
         ?>
 
@@ -41,6 +41,8 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
             <section class="record-count">
                 Total Participations: <?php echo $table->getTotalRecordCount() ?>
             </section>
+
+            <?php $table->showReports() ?>
 
             <a class="btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=participations">Add Participation</a>
         </section>

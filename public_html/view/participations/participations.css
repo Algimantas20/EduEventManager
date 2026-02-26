@@ -85,6 +85,18 @@ main
     border: 1px solid #e0e0e0;
 }
 
+select#sort-by
+{
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: var(--dark-color);
+    transition: all 0.2s ease;
+}
+
 @media (max-width: 1300px) 
 {
     main 

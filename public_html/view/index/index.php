@@ -1,6 +1,7 @@
 <?php
 require_once '../../../src/Config.php';
 require_once PROJECT_ROOT . 'src/components/Header.php';
+require_once PROJECT_ROOT . 'src/components/HeroPage.php';
 ?>
 
 <html>
@@ -19,7 +20,10 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
     <?= Header::render("Home") ?>
 
     <main>
-
+        <?php
+        $hp = new HeroPage();
+        $hp->render();
+        ?>
     </main>
 </body>
 

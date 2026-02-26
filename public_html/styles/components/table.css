@@ -12,6 +12,7 @@
     overflow-x: auto;
     margin-top: 20px;
     padding-left: calc((100% - 95%) / 2);
+    padding-right: calc((100% - 95%) / 2);;
 }
 
 table {
@@ -73,7 +74,7 @@ td
     padding: 12px 15px;
     font-size: 14px;
     color: var(--dark-color);
-    text-align: left;
+    text-align: center;
 }
 
 td.status 

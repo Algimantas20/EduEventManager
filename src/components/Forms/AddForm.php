@@ -156,11 +156,11 @@ class AddForm
                 'D' => 'Deleted'
             ];
 
-        echo "<select name=\"" . htmlspecialchars($key) . "\" {$attributes}>";
+        echo "<select name=\"" . h($key) . "\" {$attributes}>";
 
         foreach ($options as $value => $label) {
-            echo "<option value=\"" . htmlspecialchars($value) . "\">"
-                . htmlspecialchars($label)
+            echo "<option value=\"" . h($value) . "\">"
+                . h($label)
                 . "</option>";
         }
 
@@ -171,11 +171,11 @@ class AddForm
     {
         $values = $this->getDropdownValues($key);
 
-        echo "<select name=\"" . htmlspecialchars($key) . "\" {$attributes}>";
+        echo "<select name=\"" . h($key) . "\" {$attributes}>";
 
         foreach ($values as $id => $label) {
-            echo "<option value=\"" . htmlspecialchars((string)$id) . "\">"
-                . htmlspecialchars($label)
+            echo "<option value=\"" . h((string)$id) . "\">"
+                . h($label)
                 . "</option>";
         }
 
