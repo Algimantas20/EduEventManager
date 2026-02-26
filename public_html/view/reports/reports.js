@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const selectElement = document.getElementById("event_id");
+    const selectElement = document.getElementById("events_id");
     if (selectElement) {
         selectElement.addEventListener("change", async (event) => {
             const eventId = event.target.value;
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const selectStudentElemet = document.getElementById("student_id")
+    const selectStudentElemet = document.getElementById("students_id")
     if (selectStudentElemet) {
         selectStudentElemet.addEventListener("change", async (event) => {
             const studentId = event.target.value;

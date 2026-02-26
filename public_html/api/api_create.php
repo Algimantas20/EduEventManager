@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 
 require_once __DIR__ . "/../../src/Config.php";
 require_once PROJECT_ROOT . 'src/Operation.php';
