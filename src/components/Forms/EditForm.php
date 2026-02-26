@@ -127,6 +127,8 @@ class EditForm
                 Input::renderDropdown($key, Config::STATUS_FIELDS, $value);
             } else if ($type === 'dropdown') {
                 Input::renderDropdown($key, $this->getDropdownValues($key), $value);
+            } else if ($key === 'participation_status') {
+                Input::renderDropdown($key, Config::PARTICIPATION_STATUS, $value);
             } else {
                 Input::renderInput($key, $value, $type, $readadonly);
             }

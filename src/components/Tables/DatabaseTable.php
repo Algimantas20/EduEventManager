@@ -71,6 +71,10 @@ class DatabaseTable
             $class = $config['class'] ?? '';
             $value = $row[$key] ?? '';
 
+            if ($key === 'participation_status') {
+                $value = Config::PARTICIPATION_STATUS[$value] ?? $value;
+            }
+
             $classAttr = $class
                 ? ' class="' . h(sprintf($class, $value)) . '"'
                 : '';

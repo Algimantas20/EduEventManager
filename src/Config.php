@@ -56,6 +56,14 @@ class Config
         'I' => 'Inactive',
         'D' => 'Deleted'
     ];
+
+    public const PARTICIPATION_STATUS =
+    [
+        'registered' => 'Registered',
+        'cancelled' => 'Cancelled',
+        'participated' => 'Participated',
+        'not_participated' => 'Didn\'t Participate'
+    ];
 }
 
 
