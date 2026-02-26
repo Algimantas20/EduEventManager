@@ -111,6 +111,8 @@ class AddForm
                 Input::renderDropdown($key, Config::STATUS_FIELDS);
             } else if ($type === 'dropdown') {
                 Input::renderDropdown($key, $this->getDropdownValues($key));
+            } else if ($key === 'participation_status') {
+                Input::renderDropdown($key, Config::PARTICIPATION_STATUS, '');
             } else if ($key === 'created_at') {
                 $this->renderDateInput($key, $attributes);
             } else if ($key === 'event_id' || $key === 'student_id') {
