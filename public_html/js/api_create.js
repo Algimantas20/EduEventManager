@@ -49,6 +49,8 @@ function createRecord(table, data)
     {
         const formData = createFormData(table, data);
 
+        console.log(formData)
+
         fetch("../../api/api_create.php", {
             method: "POST",
             body: formData
@@ -56,7 +58,7 @@ function createRecord(table, data)
         .then(response => response.json())
         .then(result => { alert(result.message); })
         .catch(error => {
-            console.error("Error creating record:", error);
+            alert("Error creating record:", error);
         });
     } 
     catch (error) 

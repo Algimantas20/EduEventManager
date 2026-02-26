@@ -4,7 +4,7 @@ class Input
 {
     public static function renderDropdown($key, array $options, string $currentValue = '')
     {
-        echo "<select id=\"{$key}\">";
+        echo "<select id=\"{$key}\" name=\"{$key}\">";
 
         foreach ($options as $value => $label) {
             $value = (string)$value;
@@ -18,6 +18,6 @@ class Input
 
     public static function renderInput(string $key, string $value, string $type, string $attributes)
     {
-        echo "<input type=\"{$type}\" id=\"{$key}\" value=\"{$value}\" {$attributes}>";
+        echo "<input type=\"{$type}\" id=\"{$key}\" name=\"{$key}\" value=\"{$value}\" {$attributes}>";
     }
 }
