@@ -39,7 +39,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
 
         <section class="table-footer">
             <section class="record-count">
-                Total Participations: <?php echo $table->getTotalRecordCount() ?>
+                Total Participations: <?= $table->getTotalRecordCount() ?>
             </section>
 
             <?php $table->showReports() ?>

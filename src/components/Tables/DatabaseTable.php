@@ -28,54 +28,67 @@ class DatabaseTable
         return max(1, (int) ceil($total / RECORDS_PER_PAGE));
     }
 
+    private function getCurrentPage(): int
+    {
+        $page = $_GET['page'] ?? null;
+        return isset($page) && is_numeric($page) ? max(1, (int)$page) : 1;
+    }
+
     private function getGroupBy(): string
     {
         $groupBy = $_GET['group-by'] ?? null;
-
         $allowed = Config::ALLOWED_SORTS[$this->table_name] ?? [];
 
+        if ($this->table_name === 'participations' && $groupBy === 'activity') {
+            return "ORDER BY sa.activity DESC";
+        }
+
         if ($groupBy && isset($allowed[$groupBy])) {
-            $column = $allowed[$groupBy]['column'];
-            return "ORDER BY {$column} DESC";
+            return "ORDER BY {$allowed[$groupBy]['column']} DESC";
+        }
+
+        if (!empty($allowed)) {
+            return "ORDER BY " . array_values($allowed)[0]['column'] . " DESC";
         }
 
         return "ORDER BY created_at DESC";
     }
 
-    private function getCurrentPage()
+    private function buildQuery(string $sortBy, int $offset)
     {
-        $page = $_GET['page'] ?? null;
-
-        return isset($page) && is_numeric($page) ? max(1, (int) $page) : 1;
+        if ($this->table_name === "participations") {
+            return "SELECT p.id,
+                        CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+                        e.name AS event_name,
+                        p.participation_status,
+                        p.created_at,
+                        p.status,
+                        sa.activity
+                    FROM participations p
+                    JOIN students s ON p.student_id = s.id
+                    JOIN events e ON p.event_id = e.id
+                    JOIN (
+                        SELECT student_id, COUNT(*) AS activity
+                        FROM participations
+                        GROUP BY student_id
+                    ) AS sa ON sa.student_id = p.student_id
+                    {$sortBy}
+                    LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
+        } else {
+            return "SELECT *
+                    FROM `{$this->table_name}`
+                    {$sortBy}
+                    LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
+        }
     }
 
-    private function getPageContent(array $fields): mysqli_result
+    private function getPageContent(): mysqli_result
     {
-        $page = $this->getCurrentPage();
+        $page   = $this->getCurrentPage();
         $sortBy = $this->getGroupBy();
         $offset = ($page - 1) * RECORDS_PER_PAGE;
 
-        if ($this->table_name === "participations") {
-            $sql = "
-            SELECT 
-                p.id,
-                CONCAT(s.first_name, ' ', s.last_name) AS student_name,
-                e.name AS event,
-                p.participation_status,
-                p.created_at,
-                p.status
-            FROM participations p
-            JOIN students s ON p.student_id = s.id
-            JOIN events e ON p.event_id = e.id
-            $sortBy
-            LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
-        } else {
-            $sql = "
-            SELECT *
-            FROM `{$this->table_name}`
-            $sortBy
-            LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
-        }
+        $sql = $this->buildQuery($sortBy, $offset);
 
         return $this->db->query($sql);
     }
@@ -83,7 +96,7 @@ class DatabaseTable
     private function renderRow(array $row, array $fields): void
     {
         foreach ($fields as $label => $config) {
-            $key   = $config['key'];
+            $key = $config['key'];
             $class = $config['class'] ?? '';
             $value = $row[$key] ?? '';
 
@@ -91,21 +104,16 @@ class DatabaseTable
                 $value = Config::PARTICIPATION_STATUS[$value] ?? $value;
             }
 
-            $classAttr = $class
-                ? ' class="' . h(sprintf($class, $value)) . '"'
-                : '';
-
-            echo '<td data-label="' . h($label) . '"' . $classAttr . '>'
-                . h($value)
-                . '</td>';
+            $classAttr = $class ? ' class="' . h(sprintf($class, $value)) . '"' : '';
+            echo '<td data-label="' . h($label) . '"' . $classAttr . '>' . h($value) . '</td>';
         }
     }
 
     private function renderBody(array $fields): void
     {
-        $result = $this->getPageContent($fields);
+        $result = $this->getPageContent();
         while ($row = $result->fetch_assoc()) {
-            $id = (int) $row['id'];
+            $id = (int)$row['id'];
             $table = h($this->table_name);
 
             echo '<tr>';
@@ -128,27 +136,16 @@ class DatabaseTable
         echo '</tr>';
     }
 
-    public function getTotalRecordCount()
-    {
-        $query = $this->db->query("SELECT COUNT(*) AS total_count FROM {$this->table_name}");
-        $row = $query->fetch_assoc();
-
-        return (int) $row['total_count'];
-    }
-
     public function render(array $fields, string $class_name): void
     {
         echo '<div class="table-container">';
         echo '<table class="' . h($class_name) . '">';
-
         echo '<thead>';
         $this->renderHeader($fields);
         echo '</thead>';
-
         echo '<tbody>';
         $this->renderBody($fields);
         echo '</tbody>';
-
         echo '</table>';
         echo '</div>';
 
@@ -161,21 +158,16 @@ class DatabaseTable
     {
         $currentPage = $this->getCurrentPage();
         $totalPages  = $this->getTotalPages();
-
         $queryParams = $_GET;
 
         if ($currentPage > 1) {
             $queryParams['page'] = $currentPage - 1;
-            $url = '?' . http_build_query($queryParams);
-
-            echo '<a href="' . h($url) . '">&laquo; Prev</a>';
+            echo '<a href="' . h('?' . http_build_query($queryParams)) . '">&laquo; Prev</a>';
         }
 
         for ($i = 1; $i <= $totalPages; $i++) {
             $queryParams['page'] = $i;
-            $url = '?' . http_build_query($queryParams);
-
-            echo '<a href="' . h($url) . '" class="'
+            echo '<a href="' . h('?' . http_build_query($queryParams)) . '" class="'
                 . ($i === $currentPage ? 'active' : '') . '">'
                 . $i
                 . '</a>';
@@ -183,23 +175,21 @@ class DatabaseTable
 
         if ($currentPage < $totalPages) {
             $queryParams['page'] = $currentPage + 1;
-            $url = '?' . http_build_query($queryParams);
-
-            echo '<a href="' . h($url) . '">Next &raquo;</a>';
+            echo '<a href="' . h('?' . http_build_query($queryParams)) . '">Next &raquo;</a>';
         }
     }
 
-    public function renderGroupBy()
+    public function renderGroupBy(): void
     {
-        $currentValue = $_GET["group-by"] ?? '';
+        $currentValue = $_GET['group-by'] ?? '';
         Input::renderDropdown("group-by", Config::ALLOWED_SORTS[$this->table_name], $currentValue);
     }
 
-    public function showReports()
+    public function showReports(): void
     {
         $options = [
             'student' => 'Student Reports',
-            'event' => 'Event Reports'
+            'event'   => 'Event Reports'
         ];
 
         echo "<section class=\"report-container\">";
@@ -210,5 +200,12 @@ class DatabaseTable
         }
         echo "</select>";
         echo "</section>";
+    }
+
+    public function getTotalRecordCount(): int
+    {
+        $query = $this->db->query("SELECT COUNT(*) AS total_count FROM `{$this->table_name}`");
+        $row = $query->fetch_assoc();
+        return (int) ($row['total_count'] ?? 0);
     }
 }
