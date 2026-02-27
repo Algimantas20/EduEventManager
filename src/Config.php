@@ -94,6 +94,10 @@ class Config
             'created_at' => [
                 'column' => 'created_at',
                 'label'  => 'Created At'
+            ],
+            'location' => [
+                'column' => 'location',
+                'label' => 'Location'
             ]
         ]
     ];

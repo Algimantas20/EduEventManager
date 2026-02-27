@@ -208,6 +208,7 @@ td.actions
 select#group-by 
 {
     width: 30%;
+    max-width: 300px;
     padding: 0.6rem 0.75rem;
     border: 2px solid var(--secondary-color);
     border-radius: 8px;
