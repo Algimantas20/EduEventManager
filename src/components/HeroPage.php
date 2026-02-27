@@ -12,22 +12,32 @@ class HeroPage
         $participations = $this->getRecordCount("participations");
 
         echo "
-        <div class='hero-container'>
-            <div class='hero-card'>
-                <h3>Total Events</h3>
-                <p>{$events}</p>
-            </div>
+        <section class='hero'>
+            <div class='hero-content'>
+                <h1 class='hero-title'>EduEventManager</h1>
+                <p class='hero-subtitle'>Simple. Structured. Efficient.</p>
 
-            <div class='hero-card'>
-                <h3>Total Students</h3>
-                <p>{$students}</p>
-            </div>
+                <div class='hero-container'>
+                    <div class='hero-card'>
+                        <h3>Total Events</h3>
+                        <p>{$events}</p>
+                        <a href='" . Config::$BASE_URL . "view/events/view.php' class='hero-btn'>View Events</a>
+                    </div>
 
-            <div class='hero-card'>
-                <h3>Total Participations</h3>
-                <p>{$participations}</p>
+                    <div class='hero-card'>
+                        <h3>Total Students</h3>
+                        <p>{$students}</p>
+                        <a href='" . Config::$BASE_URL . "view/students/view.php' class='hero-btn'>View Students</a>
+                    </div>
+
+                    <div class='hero-card'>
+                        <h3>Total Participations</h3>
+                        <p>{$participations}</p>
+                        <a href='" . Config::$BASE_URL . "view/participations/view.php' class='hero-btn'>View Participations</a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
         ";
     }
 
