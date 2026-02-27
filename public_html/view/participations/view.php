@@ -43,7 +43,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
             </section>
 
             <?php $table->showReports() ?>
-
+            <?php $table->renderGroupBy(); ?>
             <a class="btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=participations">Add Participation</a>
         </section>
 

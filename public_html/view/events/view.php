@@ -24,7 +24,7 @@ require_once PROJECT_ROOT . 'src/components/Tables/DatabaseTable.php';
 <body>
 
     <?= Header::render("Events") ?>
-    
+
     <main class="events-page">
 
         <?php
@@ -37,6 +37,7 @@ require_once PROJECT_ROOT . 'src/components/Tables/DatabaseTable.php';
                 Total Events: <?php echo $table->getTotalRecordCount() ?>
             </section>
 
+            <?php $table->renderGroupBy(); ?>
             <a class=" btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=events">Add Event</a>
         </section>
     </main>

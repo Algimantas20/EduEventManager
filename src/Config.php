@@ -11,10 +11,10 @@ class Config
 
     public const PARTICIPATION_FIELDS =
     [
-        'Student' => ['key' => 'student_name'], // resolved via JOIN (e.g., CONCAT(first_name, " ", last_name))
-        'Event' => ['key' => 'event_name'],     // resolved via JOIN from events table
-        'Participation Status' => ['key' => 'participation_status'],
-        'Created At' => ['key' => 'created_at'],
+        'Student'               => ['key' => 'student_name'],   // resolved via JOIN (e.g., CONCAT(first_name, " ", last_name))
+        'Event'                 => ['key' => 'event'],          // resolved via JOIN from events table
+        'Participation Status'  => ['key' => 'participation_status'],
+        'Created At'            => ['key' => 'created_at'],
         'Status' => [
             'key'   => 'status',
             'class' => 'status %s'
@@ -63,6 +63,35 @@ class Config
         'cancelled' => 'Cancelled',
         'participated' => 'Participated',
         'not_participated' => 'Didn\'t Participate'
+    ];
+
+    public const ALLOWED_SORTS = [
+        'students' => [
+            'created_at' => [
+                'column' => 'created_at',
+                'label'  => 'Created At'
+            ],
+            'class' => [
+                'column' => 'class',
+                'label'  => 'Class'
+            ]
+        ],
+        'participations' => [
+            'created_at' => [
+                'column' => 'p.created_at',
+                'label'  => 'Created At'
+            ],
+            'event' => [
+                'column' => 'e.name',
+                'label'  => 'Event Name'
+            ]
+        ],
+        'events' => [
+            'created_at' => [
+                'column' => 'created_at',
+                'label'  => 'Created At'
+            ]
+        ]
     ];
 }
 

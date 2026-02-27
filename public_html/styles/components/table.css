@@ -205,6 +205,24 @@ td.actions
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
 }
 
+select#group-by 
+{
+    width: 30%;
+    padding: 0.6rem 0.75rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: #fff;
+    color: var(--dark-color);
+    transition: all 0.2s ease;
+}
+
+select#group-by:focus 
+{
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(11,60,138,0.15);
+    outline: none;
+}
 
 @media (max-width: 768px) 
 {   

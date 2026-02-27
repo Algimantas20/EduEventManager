@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../../Config.php';
 require_once __DIR__ . '/../../database.php';
+require_once PROJECT_ROOT . "src/components/Input.php";
 
 class DatabaseTable
 {
@@ -27,6 +28,20 @@ class DatabaseTable
         return max(1, (int) ceil($total / RECORDS_PER_PAGE));
     }
 
+    private function getGroupBy(): string
+    {
+        $groupBy = $_GET['group-by'] ?? null;
+
+        $allowed = Config::ALLOWED_SORTS[$this->table_name] ?? [];
+
+        if ($groupBy && isset($allowed[$groupBy])) {
+            $column = $allowed[$groupBy]['column'];
+            return "ORDER BY {$column} DESC";
+        }
+
+        return "ORDER BY created_at DESC";
+    }
+
     private function getCurrentPage()
     {
         $page = $_GET['page'] ?? null;
@@ -37,27 +52,28 @@ class DatabaseTable
     private function getPageContent(array $fields): mysqli_result
     {
         $page = $this->getCurrentPage();
+        $sortBy = $this->getGroupBy();
         $offset = ($page - 1) * RECORDS_PER_PAGE;
 
-        if ($fields === Config::PARTICIPATION_FIELDS) {
+        if ($this->table_name === "participations") {
             $sql = "
             SELECT 
                 p.id,
                 CONCAT(s.first_name, ' ', s.last_name) AS student_name,
-                e.name AS event_name,
+                e.name AS event,
                 p.participation_status,
                 p.created_at,
                 p.status
             FROM participations p
             JOIN students s ON p.student_id = s.id
             JOIN events e ON p.event_id = e.id
-            ORDER BY p.created_at DESC
+            $sortBy
             LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
         } else {
             $sql = "
             SELECT *
             FROM `{$this->table_name}`
-            ORDER BY created_at DESC
+            $sortBy
             LIMIT " . RECORDS_PER_PAGE . " OFFSET $offset";
         }
 
@@ -144,20 +160,39 @@ class DatabaseTable
     public function pagination(): void
     {
         $currentPage = $this->getCurrentPage();
+        $totalPages  = $this->getTotalPages();
+
+        $queryParams = $_GET;
+
         if ($currentPage > 1) {
-            echo '<a href="?page=' . ($currentPage - 1) . '">&laquo; Prev</a>';
+            $queryParams['page'] = $currentPage - 1;
+            $url = '?' . http_build_query($queryParams);
+
+            echo '<a href="' . h($url) . '">&laquo; Prev</a>';
         }
 
-        for ($i = 1; $i <= $this->getTotalPages(); $i++) {
-            echo '<a href="?page=' . $i . '" class="'
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $queryParams['page'] = $i;
+            $url = '?' . http_build_query($queryParams);
+
+            echo '<a href="' . h($url) . '" class="'
                 . ($i === $currentPage ? 'active' : '') . '">'
                 . $i
                 . '</a>';
         }
 
-        if ($currentPage < $this->getTotalPages()) {
-            echo '<a href="?page=' . ($currentPage + 1) . '">Next &raquo;</a>';
+        if ($currentPage < $totalPages) {
+            $queryParams['page'] = $currentPage + 1;
+            $url = '?' . http_build_query($queryParams);
+
+            echo '<a href="' . h($url) . '">Next &raquo;</a>';
         }
+    }
+
+    public function renderGroupBy()
+    {
+        $currentValue = $_GET["group-by"] ?? '';
+        Input::renderDropdown("group-by", Config::ALLOWED_SORTS[$this->table_name], $currentValue);
     }
 
     public function showReports()

@@ -2,13 +2,13 @@
 
 class Input
 {
-    public static function renderDropdown($key, array $options, string $currentValue = '')
+    public static function renderDropdown(string $key, array $options, $currentValue = '')
     {
         echo "<select id=\"{$key}\" name=\"{$key}\">";
 
-        foreach ($options as $value => $label) {
-            $value = (string)$value;
-            $selected = ($value === (string)$currentValue) ? "selected" : "";
+        foreach ($options as $value => $option) {
+            $label = is_array($option) ? $option['label'] : $option;
+            $selected = ((string)$value === (string)$currentValue) ? "selected" : "";
 
             echo "<option value=\"{$value}\" {$selected}>{$label}</option>";
         }

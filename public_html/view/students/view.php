@@ -42,6 +42,7 @@ require_once PROJECT_ROOT . 'src/components/Header.php';
                 Total Students: <?php echo $table->getTotalRecordCount() ?>
             </section>
 
+            <?php $table->renderGroupBy(); ?>
             <a class="btn add-btn" href="<?= Config::$BASE_URL ?>view/add/add.php?type=students">Add Student</a>
         </section>
 

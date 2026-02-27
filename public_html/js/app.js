@@ -23,6 +23,14 @@ function sortByEventListener(event, value)
     }
 }
 
+function groupByEventListener(event, value)
+{
+    const params = new URLSearchParams(window.location.search);
+    params.set("group-by", value);
+
+    window.location.search = params.toString();
+}
+
 document.addEventListener("DOMContentLoaded", () => 
 {
     const editLinks = document.querySelectorAll(".edit-link");
@@ -36,11 +44,21 @@ document.addEventListener("DOMContentLoaded", () =>
         });
     });
 
-    const sortBySelect = document.getElementById("sort-by");
-    if (sortBySelect)    {
-        sortBySelect.addEventListener("change", async (event) => 
+    const reportSortBySelect = document.getElementById("sort-by");
+    if (reportSortBySelect)
+    {
+        reportSortBySelect.addEventListener("change", async (event) => 
         {
-            sortByEventListener(event, sortBySelect.value);
+            sortByEventListener(event, reportSortBySelect.value);
         });
     }
+
+    const group_by = document.getElementById("group-by");
+    if (group_by)
+    {
+        group_by.addEventListener("change", (event) => {
+            groupByEventListener(event, group_by.value);
+        });
+    }
+
 });
