@@ -8,7 +8,7 @@
 
 .table-container 
 {
-    width: 95%;
+    width: 100%;
     overflow-x: auto;
     margin-top: 20px;
     padding-left: calc((100% - 95%) / 2);
@@ -112,34 +112,53 @@ td a:hover
 .pagination 
 {
     margin: 20px auto;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
 .pagination a 
 {
-    display: inline-block;
-    margin: 0 4px;
-    padding: 6px 12px;
-    background: var(--light-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    background-color: var(--light-color);
     color: var(--dark-color);
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 14px;
-}
-
-.pagination a.active 
-{
-    background: var(--primary-color);
-    color: #fff;
-    font-weight: bold;
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
 }
 
 .pagination a:hover 
 {
-    background: var(--accent-color);
-    color: #fff;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
+.pagination a.active 
+{
+    background-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.pagination a.disabled 
+{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 td.actions 
 {
@@ -205,23 +224,64 @@ td.actions
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
 }
 
-select#group-by 
-{
-    width: 30%;
-    max-width: 300px;
-    padding: 0.6rem 0.75rem;
-    border: 2px solid var(--secondary-color);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: #fff;
-    color: var(--dark-color);
-    transition: all 0.2s ease;
+.table-footer {
+    display: flex;
+    justify-content: center; /* centers pagination */
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem; /* optional spacing between pagination and dropdown on smaller screens */
+    margin-top: 15px;
+    position: relative;
 }
 
-select#group-by:focus 
-{
+.table-footer .pagination {
+    order: 1; /* ensure pagination comes first in visual order */
+}
+
+.select-wrapper {
+    position: absolute;
+    right: 0; /* keeps dropdown on the right side */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+select#group-by {
+    padding-right: 10px;
+    appearance: none;
+    width: 200px;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    background-color: #fff;
+    color: var(--dark-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    justify-self: right;
+}
+
+/* Custom arrow inside the select */
+select#group-by::after {
+    content: "▼";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.7rem;
+    color: var(--secondary-color);
+}
+
+select#group-by:hover {
+    border-color: var(--accent-color);
+}
+
+select#group-by:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(11,60,138,0.15);
+    box-shadow: 0 0 0 3px rgba(11, 60, 138, 0.15);
     outline: none;
 }
 
