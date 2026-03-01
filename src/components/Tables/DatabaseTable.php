@@ -115,8 +115,10 @@
             while ($row = $result->fetch_assoc()) {
                 $id = (int)$row['id'];
                 $table = h($this->table_name);
+                $isDeleted = ($row['status'] ?? '') === 'D';
+                $rowClass = $isDeleted ? ' class="row-deleted"' : '';
 
-                echo '<tr>';
+                echo "<tr {$rowClass}>";
                 $this->renderRow($row, $fields);
                 echo '<td class="actions">';
                 echo "<a class=\"edit-link\" data-id=\"$id\" data-table=\"$table\">Edit</a>";

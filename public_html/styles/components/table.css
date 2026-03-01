@@ -50,6 +50,11 @@ tbody tr:nth-child(even)
     background-color: #ffffff;
 }
 
+tbody tr.row-deleted
+{
+    background-color: #B23A48;
+}
+
 tbody tr:hover 
 {
     background-color: var(--accent-color);
@@ -226,21 +231,21 @@ td.actions
 
 .table-footer {
     display: flex;
-    justify-content: center; /* centers pagination */
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem; /* optional spacing between pagination and dropdown on smaller screens */
+    gap: 1rem;
     margin-top: 15px;
     position: relative;
 }
 
 .table-footer .pagination {
-    order: 1; /* ensure pagination comes first in visual order */
+    order: 1;
 }
 
 .select-wrapper {
     position: absolute;
-    right: 0; /* keeps dropdown on the right side */
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
 }
