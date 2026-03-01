@@ -263,9 +263,7 @@ select#group-by {
     justify-self: right;
 }
 
-/* Custom arrow inside the select */
 select#group-by::after {
-    content: "▼";
     position: absolute;
     right: 12px;
     top: 50%;
@@ -329,5 +327,25 @@ select#group-by:focus {
 
     tbody td span {
         flex: 2;
+    }
+
+    .table-footer 
+    {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .select-wrapper 
+    {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    select#group-by 
+    {
+        width: 100%;
     }
 }
