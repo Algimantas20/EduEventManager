@@ -55,6 +55,11 @@ tbody tr.row-deleted
     background-color: #B23A48;
 }
 
+tbody tr.row-deleted:hover
+{
+    background-color: #971524;
+}
+
 tbody tr:hover 
 {
     background-color: var(--accent-color);
