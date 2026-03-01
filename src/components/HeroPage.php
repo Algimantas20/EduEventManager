@@ -51,7 +51,7 @@ class HeroPage
 
         $db = new Database();
 
-        $sql = "SELECT COUNT(*) AS total FROM {$table} WHERE status='A'";
+        $sql = "SELECT COUNT(*) AS total FROM {$table}";
         $result = $db->query($sql);
 
         if ($row = $result->fetch_assoc()) {
